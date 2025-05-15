@@ -24,7 +24,6 @@
 <td id="layout-content">
 <h2>GNN-based Precoding in Cell-free Massive MIMO</h2>
 
-<!-- 图文内容开始 -->
 <p>
 Cell-free massive MIMO aims to provide uniform high-quality wireless service via distributed Access Points (APs). 
 This project proposes a GNN-based precoding framework trained on synthetic CSI and fine-tuned using real-world measurements 
@@ -32,15 +31,22 @@ from our Techtile testbed.
 </p>
 
 <h3>System Overview</h3>
-<img src="images/systemmodel.png" alt="System Model" style="width:20%; border-radius:6px;" />
-<p><i>Figure: System model of the Cell-free Massive MIMO network with distributed APs.</i></p>
+<div style="text-align:center;">
+  <img src="images/systemmodel.png" alt="System Model" style="width:40%; border-radius:6px;" />
+  <p><i>Figure: System model of the Cell-free Massive MIMO network with distributed APs.</i></p>
+</div>
 
 <h3>GNN Architecture</h3>
-<img src="images/graph.png" alt="GNN Network" style="width:20%; border-radius:6px;" />
-<p>The GNN operates on a bipartite graph, where APs and UEs are nodes, and edges represent wireless links characterized by CSI.</p>
+<div style="text-align:center;">
+  <img src="images/graph.png" alt="GNN Network" style="width:40%; border-radius:6px;" />
+  <p><i>Figure: GNN operates on a bipartite graph, modeling AP-UE wireless links.</i></p>
+</div>
 
 <h3>Real-world Dataset</h3>
-<img src="images/techtile.png" alt="Techtile Testbed" style="width:20%; border-radius:6px;" />
+<div style="text-align:center;">
+  <img src="images/techtile.png" alt="Techtile Testbed" style="width:40%; border-radius:6px;" />
+  <p><i>Figure: Techtile testbed with 33 APs on ceiling and mobile UE on floor.</i></p>
+</div>
 <p>
 Real-world CSI data was collected from a testbed with 33 APs mounted on a ceiling. 
 500 spatial positions were sampled to create diverse user combinations for training and testing.
@@ -55,8 +61,10 @@ Real-world CSI data was collected from a testbed with 33 APs mounted on a ceilin
   <li>Layer-freezing with 4 frozen layers yields best performance.</li>
   <li>Generalizes better than CB and close to ZF in practice.</li>
 </ul>
-<img src="images/freeze.png" alt="Freezing Strategy" style="width:20%; border-radius:6px;" />
-<p><i>Figure: Comparison of different layer-freezing strategies.</i></p>
+<div style="text-align:center;">
+  <img src="images/freeze.png" alt="Freezing Strategy" style="width:40%; border-radius:6px;" />
+  <p><i>Figure: Comparison of different layer-freezing strategies.</i></p>
+</div>
 
 <h3>Publication</h3>
 <p>
@@ -64,7 +72,6 @@ Real-world CSI data was collected from a testbed with 33 APs mounted on a ceilin
 "<a href="https://doi.org/10.48550/arXiv.2505.08788" target="_blank">GNN-based Precoder Design and Fine-tuning for Cell-free Massive MIMO with Real-world CSI</a>", 2025.
 </p>
 
-<!-- 页面结尾 -->
 <div id="footer">
 <div id="footer-text">
 </div>
