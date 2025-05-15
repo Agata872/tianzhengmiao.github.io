@@ -1,20 +1,53 @@
-<h2>GNN-based Precoding for Cell-free Massive MIMO</h2>
-<p>This project explores the use of Graph Neural Networks (GNNs) to design and fine-tune precoders in a cell-free massive MIMO system using real-world channel state information (CSI) gathered from our 6G testbed.</p>
+<h2>GNN-based Precoding in Cell-free Massive MIMO</h2>
 
-<h3>Background</h3>
-<p>Conventional linear precoding approaches struggle with distributed deployments and real CSI irregularities. We aim to learn flexible, robust precoding mappings using data-driven methods.</p>
+<!-- 插图模块：系统结构 -->
+<img src="images/systemmodel.png" alt="System Model" style="width:80%; border-radius:6px; margin-bottom:10px;" />
+<p><i>Figure: System model of the Cell-free Massive MIMO network with distributed APs.</i></p>
 
-<h3>Methodology</h3>
-<p>The proposed approach models the network as a graph, where Access Points (APs) and Users are nodes. A multi-layer GNN architecture learns to output precoding weights based on node and edge features.</p>
+<h3>Background & Motivation</h3>
+<p>
+Cell-free massive MIMO aims to provide uniform high-quality wireless service via distributed Access Points (APs).
+However, designing scalable and robust precoding under real-world channel conditions remains a significant challenge.
+We address this by using Graph Neural Networks (GNNs), which learn mappings from channel states to precoding weights.
+</p>
 
-<h3>Results</h3>
+<h3>Our Approach</h3>
 <ul>
-  <li>Performance improves over traditional MRT and ZF in realistic deployments.</li>
-  <li>Transfer learning enables cross-scenario generalization with minimal fine-tuning.</li>
+  <li><b>Pretraining:</b> A GNN is trained using synthetic CSI based on Rayleigh fading and 3GPP models.</li>
+  <li><b>Fine-tuning:</b> The pretrained GNN is adapted to real-world CSI data collected from our <a href="#techtile">Techtile testbed</a>.</li>
+  <li><b>Transfer learning:</b> We apply a <u>layer-freezing</u> technique to preserve knowledge while adapting to new conditions.</li>
 </ul>
 
-<h3>Resources</h3>
+<!-- 插图模块：GNN拓扑结构 -->
+<img src="images/graph.pdf" alt="Graph Neural Network Architecture" style="width:80%; border-radius:6px; margin-bottom:10px;" />
+<p><i>Figure: GNN operates over an edge-centric bipartite graph, modeling AP-UE channel links.</i></p>
+
+<h3 id="techtile">Techtile Testbed</h3>
+<img src="images/techtile.png" alt="Testbed setup" style="width:80%; border-radius:6px; margin-bottom:10px;" />
+<p>
+The real-world CSI is collected in a physical indoor environment with 33 distributed APs on the ceiling and a single UE moving across 500 spatial positions.
+We construct 2-user and 4-user datasets from these single-user measurements to simulate multi-user scenarios.
+</p>
+
+<h3>Key Results</h3>
 <ul>
-  <li><a href="https://doi.org/10.48550/arXiv.2505.08788">Paper on arXiv</a></li>
-  <!-- <li><a href="https://github.com/...">[Code Repository (optional)]</a></li> -->
+  <li>After fine-tuning, our GNN achieves a <b>15.7% sum-rate gain</b> on real data compared to the pretrained model.</li>
+  <li>It outperforms conventional precoding schemes like Conjugate Beamforming (CB) and approaches the performance of Zero Forcing (ZF).</li>
+  <li>Our layer-freezing strategy (freezing 4 of 8 layers) achieves the best transfer result.</li>
 </ul>
+
+<!-- 插图模块：性能曲线图 -->
+<img src="images/freeze.pdf" alt="Freezing Strategy Performance" style="width:80%; border-radius:6px;" />
+<p><i>Figure: Comparing different layer-freezing strategies on real-world CSI.</i></p>
+
+<h3>Dataset & Code</h3>
+<p>
+The real-world CSI dataset used for fine-tuning is publicly available at:<br />
+<a href="https://kuleuven-my.sharepoint.com/:f:/g/personal/tianzheng_miao_kuleuven_be/ErQh2y6X6yxPj-w9WLlbVDIB52p2T0EXlAqj26fXwJBj7g?e=fOJr3W" target="_blank">[Download Real-world CSI Dataset]</a>
+</p>
+
+<h3>Publication</h3>
+<p>
+<b>Tianzheng Miao</b>, Thomas Feys, Gilles Callebaut, Jarne Van Mulders, Emanuele Peschiera, Md Arifur Rahman, François Rottenberg,<br />
+"<a href="https://doi.org/10.48550/arXiv.2505.08788">GNN-based Precoder Design and Fine-tuning for Cell-free Massive MIMO with Real-world CSI</a>", 2025.
+</p>
