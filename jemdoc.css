@@ -365,3 +365,109 @@ table.imgtable, table.imgtable td {
     border: none;
     text-align: left;
 }
+
+/* ===== Updates (Card layout) ===== */
+
+.updates-subtitle{
+  color:#555;
+  margin-top:-8px;
+  margin-bottom:14px;
+  line-height:1.5;
+}
+
+.updates-section-title{
+  font-weight:700;
+  margin:14px 0 8px 0;
+}
+
+.updates-nav{
+  margin: 10px 0 18px 0;
+}
+
+.pill{
+  display:inline-block;
+  padding:4px 10px;
+  border:1px solid #ddd;
+  border-radius:999px;
+  margin: 0 8px 8px 0;
+  text-decoration:none;
+  color:#333;
+  font-size:0.95em;
+}
+
+.pill:hover{
+  text-decoration:underline;
+}
+
+.post-card{
+  border:1px solid #ddd;
+  border-radius:10px;
+  padding:12px 14px;
+  margin:12px 0;
+  background:#fff;
+}
+
+.post-card--pinned{
+  border-color:#cfcfcf;
+}
+
+.post-meta{
+  display:flex;
+  gap:10px;
+  flex-wrap:wrap;
+  align-items:center;
+  color:#666;
+  font-size:0.9em;
+  margin-bottom:6px;
+}
+
+.post-date{
+  font-weight:700;
+  color:#333;
+}
+
+.post-title{
+  font-weight:700;
+  margin:4px 0 6px 0;
+}
+
+.post-body{
+  color:#333;
+  line-height:1.6;
+}
+
+.post-list{
+  margin: 8px 0 0 18px;
+}
+
+.tag-cloud{
+  margin-top: 8px;
+}
+
+.tag{
+  display:inline-block;
+  border:1px solid #ddd;
+  border-radius:999px;
+  padding:2px 10px;
+  margin:4px 6px 0 0;
+  font-size:0.9em;
+  color:#444;
+  background:#fafafa;
+}
+
+.post-details summary{
+  cursor:pointer;
+  color:#333;
+  font-weight:600;
+  margin: 4px 0;
+}
+
+.post-details-body{
+  margin-top: 8px;
+}
+
+.updates-footer{
+  margin-top: 18px;
+  color:#666;
+  font-size:0.95em;
+}
