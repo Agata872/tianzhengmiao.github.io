@@ -32,11 +32,9 @@ python tools/check_site.py
 | 教育经历 | `education` |
 | 奖项 | `awards` |
 | 审稿和委员会经历 | `services` |
-| 笔记页顶部的 Current Focus | `focus` |
-| 笔记 | `posts` |
 | GNN 研究页：摘要、关键结果、图示 | `gnn` |
 
-增加论文时，在 `publications` 添加对象，使用唯一 `id`；论文页按年份自动分组，BibTeX 展示和 `citations/*.bib` 文件自动生成。`doi` 以 `10.48550/` 开头（arXiv）时不在正文显示，仅通过 arXiv 链接给出。增加笔记时，在 `posts` 添加唯一 `id`、ISO 日期 `YYYY-MM-DD`、`title`、`lang`、`tags` 和 `paragraphs`，页面按日期倒序排列；首页显示最新 3 篇。
+增加论文时，在 `publications` 添加对象，使用唯一 `id`；论文页按年份自动分组，BibTeX 展示和 `citations/*.bib` 文件自动生成。`doi` 以 `10.48550/` 开头（arXiv）时不在正文显示，仅通过 arXiv 链接给出。
 
 现有研究详情页保留原 URL。新建详情页时，在 `tools/build.py` 添加渲染函数和 `pages` 条目，并将 `projects` 中的 `slug` 指向它。所有页面共用 `templates/base.html`（导航、页脚、元数据）。页脚的年份和 “Last updated” 取构建当天的日期。
 

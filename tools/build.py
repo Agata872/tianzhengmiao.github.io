@@ -11,6 +11,7 @@ ROOT = Path(__file__).resolve().parents[1]
 DATA = json.loads((ROOT / 'data/site.json').read_text(encoding='utf-8'))
 BASE = Template((ROOT / 'templates/base.html').read_text(encoding='utf-8'))
 PROFILE = DATA['profile']
+PROJECTS = {project['id']: project for project in DATA['projects']}
 
 
 def e(value):
@@ -19,7 +20,21 @@ def e(value):
 
 def rich(text):
     """Escape text, then turn [label](https://...) into links."""
-    return re.sub(r'\[([^\]]+)\]\((https?://[^)\s]+)\)', r'<a href="\2">\1</a>', e(text))
+    def anchor(match):
+        label, url = match.groups()
+        css = '' if ' ' in label else ' class="nobreak"'  # keep one-word names such as IS-Wireless on a single line
+        return f'<a{css} href="{url}">{label}</a>'
+    return re.sub(r'\[([^\]]+)\]\((https?://[^)\s]+)\)', anchor, e(text))
+
+
+# Technical terms that should not wrap at their hyphen or dash.
+TERMS = re.compile(r'\b(?:AI-RAN|O-RAN|IS-Wireless|EMPOWER-6G|DU–RU|AP–user|(?:[Ll]ow|[Hh]igh)-PHY)\b')
+
+
+def keep_together(html):
+    """Wrap TERMS in nowrap spans in text nodes only (never inside tags or inline SVG)."""
+    parts = re.split(r'(<svg.*?</svg>|<[^>]+>)', html, flags=re.DOTALL)
+    return ''.join(part if part.startswith('<') else TERMS.sub(lambda m: f'<span class="nobreak">{m.group(0)}</span>', part) for part in parts)
 
 
 def link(url, label):
@@ -148,12 +163,19 @@ def education():
     return timeline(rows)
 
 
+def experience():
+    rows = []
+    for item in DATA['experience']:
+        place = link(item['url'], e(item['institution'])) if item.get('url') else e(item['institution'])
+        body = f'<strong>{e(item["title"])}</strong><br>{place}'
+        if item.get('detail'):
+            body += f'<br><span class="muted">{e(item["detail"])}</span>'
+        rows.append((item['year'], body))
+    return timeline(rows)
+
+
 def awards_rows():
     return timeline([(a['year'], f'<strong>{e(a["title"])}</strong><br><span class="muted">{e(a["event"])}</span>') for a in DATA['awards']])
-
-
-def sorted_posts():
-    return sorted(DATA['posts'], key=lambda p: p['date'], reverse=True)
 
 
 def home():
@@ -162,10 +184,10 @@ def home():
     about = ''.join(f'<p>{rich(text)}</p>' for text in p['about'])
     interests = ''.join(f'<li>{e(item)}</li>' for item in p['interests'])
     research = ''.join(f'<li><h3>{link(x["slug"], e(x["title"]))}</h3><p>{e(x["summary"])}</p></li>' for x in DATA['projects'])
-    notes = ''.join(f'<li><time datetime="{post["date"]}">{post["date"].replace("-", ".")}</time> <a href="updates.html#{e(post["id"])}" lang="{e(post["lang"])}">{e(post["title"])}</a></li>' for post in sorted_posts()[:3])
     return f'''<section class="profile">
       <div class="profile-text"><h1>{e(p['name'])} <span class="name-zh" lang="zh-CN">{e(p['name_zh'])}</span></h1>
       <p class="position">{e(p['position'])}<br>{e(p['department'])}<br>{e(p['institution'])}</p>
+      <p class="secondment">{rich(p['secondment'])}</p>
       <p class="address">{e(p['address'])}<br>Email: <a href="mailto:{email}">{email}</a></p></div>
       <img class="portrait" src="{e(p['portrait'])}" alt="Portrait of {e(p['name'])}" width="1280" height="1706">
     </section>
@@ -173,9 +195,9 @@ def home():
     <section class="block" id="interests"><h2>Research Interests</h2><p>{e(p['interests_intro'])}</p><ul>{interests}</ul></section>
     <section class="block" id="research"><h2>Research</h2><ul class="research-list">{research}</ul></section>
     <section class="block" id="publications"><h2>Selected Publications</h2>{publication_list(limit=5)}<p class="more">{link('publication.html', 'All publications →')}</p></section>
+    <section class="block" id="experience"><h2>Experience</h2>{experience()}</section>
     <section class="block" id="education"><h2>Education</h2>{education()}</section>
     <section class="block" id="awards"><h2>Awards</h2>{awards_rows()}</section>
-    <section class="block" id="notes"><h2>Recent Notes</h2><ul class="note-list">{notes}</ul><p class="more">{link('updates.html', 'All notes →')}</p></section>
     <section class="block" id="contact"><h2>Contact</h2><p>{e(p['contact_note'])}</p><p><a href="mailto:{email}">{email}</a></p></section>'''
 
 
@@ -201,22 +223,12 @@ def awards():
     return page_head('Awards', crumb=('index.html#awards', 'Home')) + f'<section class="block">{awards_rows()}</section>'
 
 
-def updates():
-    content = page_head('Notes', 'Research logs and personal reflections, written in English or Chinese.')
-    focus = ''.join(f'<li>{e(item)}</li>' for item in DATA['focus'])
-    content += f'<section class="block" id="focus"><h2>Current Focus</h2><ul>{focus}</ul></section>'
-    for post in sorted_posts():
-        paragraphs = ''.join(f'<p>{e(text)}</p>' for text in post['paragraphs'])
-        content += f'''<article class="block note" id="{e(post['id'])}" lang="{e(post['lang'])}"><h2>{e(post['title'])}</h2><p class="note-meta"><time datetime="{e(post['date'])}">{post['date'].replace('-', '.')}</time> · {e(', '.join(post['tags']))} · <a href="#{e(post['id'])}" aria-label="Permanent link to {e(post['title'])}">link</a></p>{paragraphs}</article>'''
-    return content
-
-
 def figure(number, image, preview, alt, caption):
     return f'<figure><a href="{e(image)}"><img src="{e(preview)}" alt="{e(alt)}" loading="lazy"></a><figcaption><strong>Figure {number}.</strong> {e(caption)}</figcaption></figure>'
 
 
 def cellfree():
-    p = DATA['projects'][0]
+    p = PROJECTS['cellfree']
     content = page_head(e(p['title']), e(p['summary']), crumb=('index.html#research', 'Research'))
     content += '<p class="keywords"><strong>Keywords:</strong> cell-free massive MIMO, graph neural networks, transfer learning, real-world CSI</p>'
     content += '<section class="block"><h2>Overview</h2><p>Cell-free massive MIMO brings distributed access points together to serve users. My work explores learning-based precoding, transfer learning, and validation with real channel measurements.</p>'
@@ -240,22 +252,55 @@ def gnn():
 
 
 def compress():
-    p = DATA['projects'][1]
+    p = PROJECTS['compress']
     content = page_head(e(p['title']), e(p['summary']), crumb=('index.html#research', 'Research'))
     questions = ''.join(f'<li>{e(q)}</li>' for q in DATA['compression_questions'])
     content += '<section class="block"><h2>Background</h2><p>Distributed wireless systems connect many access points and processing units. Moving radio information between them puts communication capacity and computation in the same design picture.</p><p>This research area explores efficient fronthaul compression for distributed wireless network architectures. It complements my work on cell-free networking and physical-layer signal processing, where coordination and computational cost both matter.</p></section>'
     content += f'<section class="block"><h2>Questions I Am Exploring</h2><ol>{questions}</ol></section>'
-    content += f'<section class="block"><h2>Related Work</h2><p>See also {link("cellfree.html", "AI-driven signal processing in cell-free massive MIMO")} and my {link("publication.html", "publications")}.</p></section>'
+    content += f'<section class="block"><h2>Related Work</h2><p>See also {link("cellfree.html", "AI-driven signal processing in cell-free massive MIMO")}, {link("oran.html", "AI-RAN and O-RAN: DU–RU cooperation")}, and my {link("publication.html", "publications")}.</p></section>'
+    return content
+
+
+# Protocol stack covered by the O-RAN direction: (label, part of the core scope?), top to bottom.
+STACK = [('RRC', False), ('PDCP', False), ('RLC', True), ('MAC', True), ('High-PHY', True), ('Low-PHY', True)]
+
+
+def protocol_stack_figure(number):
+    x, w, h, gap, top = 190, 170, 34, 8, 16
+    top_of = lambda i: top + i * (h + gap)
+    bottom_of = lambda i: top_of(i) + h
+    boxes = ''.join(f'<g class="layer{"" if core else " extension"}"><rect x="{x}" y="{top_of(i)}" width="{w}" height="{h}" rx="2"/><text x="{x + w // 2}" y="{top_of(i) + 22}">{label}</text></g>' for i, (label, core) in enumerate(STACK))
+
+    def left(first, last, label):
+        y1, y2 = top_of(first), bottom_of(last)
+        return f'<path class="bracket" d="M{x - 8} {y1}h-7V{y2}h7"/><text class="side-label" x="160" y="{(y1 + y2) // 2 + 5}">{label}</text>'
+
+    def right(first, last, lines, dashed=False):
+        y1, y2 = top_of(first), bottom_of(last)
+        mid = (y1 + y2) // 2
+        text = ''.join(f'<tspan x="392" y="{mid + 5 + (i - (len(lines) - 1) / 2) * 20:.0f}">{line}</tspan>' for i, line in enumerate(lines))
+        return f'<path class="bracket{" dashed" if dashed else ""}" d="M{x + w + 8} {y1}h7V{y2}h-7"/><text class="note">{text}</text>'
+
+    brackets = left(0, 0, 'Layer 3') + left(1, 3, 'Layer 2') + left(4, 5, 'Layer 1') + right(2, 5, ['Core scope', 'of the secondment']) + right(0, 1, ['Possible', 'extension'], dashed=True)
+    return f"""<figure><svg class="stack-svg" viewBox="0 0 600 282" role="img" aria-labelledby="stack-title stack-desc"><title id="stack-title">Protocol-stack layers covered by the research</title><desc id="stack-desc">From top to bottom: RRC and PDCP, shown dashed as possible extensions, then RLC, MAC, high-PHY and low-PHY as the core scope. Low-PHY and high-PHY form Layer 1; MAC, RLC and PDCP belong to Layer 2; RRC to Layer 3.</desc>{boxes}{brackets}</svg><figcaption><strong>Figure {number}.</strong> Protocol-stack layers covered by this research direction. The core scope is low-PHY, high-PHY, MAC and RLC; PDCP and RRC (dashed) are possible extensions.</figcaption></figure>"""
+
+
+def oran():
+    p = PROJECTS['oran']
+    content = page_head(e(p['title']), e(p['summary']), crumb=('index.html#research', 'Research'))
+    content += '<p class="keywords"><strong>Keywords:</strong> AI-RAN, O-RAN, DU–RU cooperation, limited fronthaul, inter-user interference, protocol stack</p>'
+    content += f'<section class="block"><h2>Context</h2><p>This research direction is pursued during my 18-month industrial secondment at {link(PROFILE["secondment_url"], "IS-Wireless")}, where I work as a Junior Research Engineer in the Research and Innovation Department. The secondment is part of the second phase of EMPOWER-6G, and the work is carried out in close collaboration with industry.</p></section>'
+    content += '<section class="block"><h2>Problem</h2><p>In a disaggregated radio access network, processing is shared between distributed units (DUs) and radio units (RUs) that are connected by a fronthaul link. Two practical limits shape how well they can cooperate: the fronthaul has limited capacity, and users served in the same area interfere with each other. This work asks how DUs and RUs should cooperate under both limits.</p></section>'
+    content += '<section class="block"><h2>From Layer 1 to Layers 1 and 2</h2><p>The work builds on the physical-layer signal-processing research of the first phase of my Ph.D., on cell-free networking and fronthaul compression, and extends its scope from Layer 1 to a joint view of Layers 1 and 2. It covers the low-PHY, high-PHY, MAC and RLC, and may extend to PDCP and RRC.</p>' + protocol_stack_figure(1) + '</section>'
+    content += f'<section class="block"><h2>Related Work</h2><p>See also {link("cellfree.html", "AI-driven signal processing in cell-free massive MIMO")}, {link("compress.html", "efficient fronthaul compression")}, and my {link("publication.html", "publications")}.</p></section>'
     return content
 
 
 def validate_data():
-    for group, key in [('projects', 'id'), ('publications', 'id'), ('posts', 'id')]:
+    for group, key in [('projects', 'id'), ('publications', 'id')]:
         ids = [item[key] for item in DATA[group]]
         if len(ids) != len(set(ids)):
             raise ValueError(f'Duplicate IDs in {group}')
-    for post in DATA['posts']:
-        date.fromisoformat(post['date'])
     for image in [PROFILE['portrait'], *[p[k] for p in DATA['projects'] for k in ('image', 'preview') if p.get(k)], *[f[k] for f in DATA['gnn']['figures'] for k in ('image', 'preview') if f.get(k)]]:
         if not (ROOT / image).is_file():
             raise ValueError(f'Missing image: {image}')
@@ -269,29 +314,29 @@ def build():
         'publication.html': (f'Publications — {name}', 'list-page', 'publications', publications),
         'services.html': (f'Professional Service — {name}', 'list-page', 'service', services),
         'awards.html': (f'Awards — {name}', 'list-page', '', awards),
-        'updates.html': (f'Notes — {name}', 'notes-page', 'notes', updates),
         'cellfree.html': (f'AI-Driven Signal Processing in Distributed MIMO — {name}', 'research-page', 'research', cellfree),
         'cellfree-gnn.html': (f'GNN-Based Precoding — {name}', 'research-page', 'research', gnn),
         'compress.html': (f'Fronthaul Compression — {name}', 'research-page', 'research', compress),
+        'oran.html': (f'AI-RAN and O-RAN — {name}', 'research-page', 'research', oran),
     }
     descriptions = {
         'index.html': PROFILE['bio'],
         'publication.html': 'Publications by Tianzheng Miao on machine learning, distributed MIMO, and real-world wireless systems.',
         'services.html': 'Journal and conference peer review and technical program committee service by Tianzheng Miao.',
         'awards.html': 'Awards and academic milestones of Tianzheng Miao.',
-        'updates.html': 'Research notes and personal reflections from Tianzheng Miao.',
-        'cellfree.html': DATA['projects'][0]['summary'],
+        'cellfree.html': PROJECTS['cellfree']['summary'],
         'cellfree-gnn.html': DATA['gnn']['overview'],
-        'compress.html': DATA['projects'][1]['summary'],
+        'compress.html': PROJECTS['compress']['summary'],
+        'oran.html': PROJECTS['oran']['summary'],
     }
-    nav_items = [('home', 'Home', 'index.html'), ('research', 'Research', 'index.html#research'), ('publications', 'Publications', 'publication.html'), ('service', 'Service', 'services.html'), ('notes', 'Notes', 'updates.html')]
+    nav_items = [('home', 'Home', 'index.html'), ('research', 'Research', 'index.html#research'), ('publications', 'Publications', 'publication.html'), ('service', 'Service', 'services.html')]
     today = date.today()
     for filename, (title, css, active, render) in pages.items():
         nav = ''.join(
             f'<a href="{href}"' + (' class="is-active"' if key == active else '') + (' aria-current="page"' if href == filename else '') + f'>{label}</a>'
             for key, label, href in nav_items
         )
-        content = render()
+        content = keep_together(render())
         scripts = '<script src="network.js?v=1" defer></script>' if 'data-network' in content else ''
         html = BASE.substitute(scripts=scripts, title=e(title), description=e(descriptions[filename]), body_class=css, navigation=nav, content=content, email=e(PROFILE['email']), name=e(name), location=e(PROFILE['location']), year=today.year, updated=today.strftime('%B %Y'))
         (ROOT / filename).write_text(html, encoding='utf-8', newline='\n')

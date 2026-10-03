@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="author" content="Tianzheng Miao">
+  <meta name="description" content="Cooperation between distributed units (DUs) and radio units (RUs) under limited fronthaul capacity and inter-user interference, extending physical-layer signal processing from Layer 1 to Layers 1 and 2. Carried out during an industrial secondment at IS-Wireless.">
+  <meta property="og:title" content="AI-RAN and O-RAN — Tianzheng Miao">
+  <meta property="og:description" content="Cooperation between distributed units (DUs) and radio units (RUs) under limited fronthaul capacity and inter-user interference, extending physical-layer signal processing from Layer 1 to Layers 1 and 2. Carried out during an industrial secondment at IS-Wireless.">
+  <meta property="og:type" content="website">
+  <title>AI-RAN and O-RAN — Tianzheng Miao</title>
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="fonts/source-serif-4-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="fonts/fonts.css">
+  <link rel="stylesheet" href="style.css?v=4">
+  
+</head>
+<body class="research-page">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <nav class="site-nav" aria-label="Main navigation">
+      <a class="site-name" href="index.html">Tianzheng Miao</a>
+      <div class="nav-links"><a href="index.html">Home</a><a href="index.html#research" class="is-active">Research</a><a href="publication.html">Publications</a><a href="services.html">Service</a></div>
+    </nav>
+  </header>
+  <main id="main"><header class="page-head"><p class="crumb"><a href="index.html#research">← Research</a></p><h1><span class="nobreak">AI-RAN</span> and <span class="nobreak">O-RAN</span>: <span class="nobreak">DU–RU</span> Cooperation under Practical Constraints</h1><p class="lead">Cooperation between distributed units (DUs) and radio units (RUs) under limited fronthaul capacity and inter-user interference, extending physical-layer signal processing from Layer 1 to Layers 1 and 2. Carried out during an industrial secondment at <span class="nobreak">IS-Wireless</span>.</p></header><p class="keywords"><strong>Keywords:</strong> <span class="nobreak">AI-RAN</span>, <span class="nobreak">O-RAN</span>, <span class="nobreak">DU–RU</span> cooperation, limited fronthaul, inter-user interference, protocol stack</p><section class="block"><h2>Context</h2><p>This research direction is pursued during my 18-month industrial secondment at <a href="https://www.is-wireless.com/"><span class="nobreak">IS-Wireless</span></a>, where I work as a Junior Research Engineer in the Research and Innovation Department. The secondment is part of the second phase of <span class="nobreak">EMPOWER-6G</span>, and the work is carried out in close collaboration with industry.</p></section><section class="block"><h2>Problem</h2><p>In a disaggregated radio access network, processing is shared between distributed units (DUs) and radio units (RUs) that are connected by a fronthaul link. Two practical limits shape how well they can cooperate: the fronthaul has limited capacity, and users served in the same area interfere with each other. This work asks how DUs and RUs should cooperate under both limits.</p></section><section class="block"><h2>From Layer 1 to Layers 1 and 2</h2><p>The work builds on the physical-layer signal-processing research of the first phase of my Ph.D., on cell-free networking and fronthaul compression, and extends its scope from Layer 1 to a joint view of Layers 1 and 2. It covers the <span class="nobreak">low-PHY</span>, <span class="nobreak">high-PHY</span>, MAC and RLC, and may extend to PDCP and RRC.</p><figure><svg class="stack-svg" viewBox="0 0 600 282" role="img" aria-labelledby="stack-title stack-desc"><title id="stack-title">Protocol-stack layers covered by the research</title><desc id="stack-desc">From top to bottom: RRC and PDCP, shown dashed as possible extensions, then RLC, MAC, high-PHY and low-PHY as the core scope. Low-PHY and high-PHY form Layer 1; MAC, RLC and PDCP belong to Layer 2; RRC to Layer 3.</desc><g class="layer extension"><rect x="190" y="16" width="170" height="34" rx="2"/><text x="275" y="38">RRC</text></g><g class="layer extension"><rect x="190" y="58" width="170" height="34" rx="2"/><text x="275" y="80">PDCP</text></g><g class="layer"><rect x="190" y="100" width="170" height="34" rx="2"/><text x="275" y="122">RLC</text></g><g class="layer"><rect x="190" y="142" width="170" height="34" rx="2"/><text x="275" y="164">MAC</text></g><g class="layer"><rect x="190" y="184" width="170" height="34" rx="2"/><text x="275" y="206">High-PHY</text></g><g class="layer"><rect x="190" y="226" width="170" height="34" rx="2"/><text x="275" y="248">Low-PHY</text></g><path class="bracket" d="M182 16h-7V50h7"/><text class="side-label" x="160" y="38">Layer 3</text><path class="bracket" d="M182 58h-7V176h7"/><text class="side-label" x="160" y="122">Layer 2</text><path class="bracket" d="M182 184h-7V260h7"/><text class="side-label" x="160" y="227">Layer 1</text><path class="bracket" d="M368 100h7V260h-7"/><text class="note"><tspan x="392" y="175">Core scope</tspan><tspan x="392" y="195">of the secondment</tspan></text><path class="bracket dashed" d="M368 16h7V92h-7"/><text class="note"><tspan x="392" y="49">Possible</tspan><tspan x="392" y="69">extension</tspan></text></svg><figcaption><strong>Figure 1.</strong> Protocol-stack layers covered by this research direction. The core scope is <span class="nobreak">low-PHY</span>, <span class="nobreak">high-PHY</span>, MAC and RLC; PDCP and RRC (dashed) are possible extensions.</figcaption></figure></section><section class="block"><h2>Related Work</h2><p>See also <a href="cellfree.html">AI-driven signal processing in cell-free massive MIMO</a>, <a href="compress.html">efficient fronthaul compression</a>, and my <a href="publication.html">publications</a>.</p></section></main>
+  <footer class="site-footer">
+    <p>© 2026 Tianzheng Miao · <a href="mailto:tianzheng.miao@kuleuven.be">tianzheng.miao@kuleuven.be</a> · Ghent, Belgium</p>
+    <p>Last updated October 2026 · <a href="awards.html">Awards</a></p>
+  </footer>
+</body>
+</html>

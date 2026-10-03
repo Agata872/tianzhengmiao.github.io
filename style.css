@@ -78,17 +78,18 @@ li { margin: .25rem 0; }
 .profile h1 { font-size: 2.3rem; }
 .name-zh { margin-left: .35rem; color: var(--muted); font: 400 1.2rem var(--sans); white-space: nowrap; }
 .position { margin: .9rem 0 .7rem; font-size: 1.08rem; }
+.secondment { margin: 0 0 .7rem; font-size: 1rem; }
+.nobreak { white-space: nowrap; }
 .address { margin: 0; color: var(--muted); font-size: .98rem; }
 .portrait {
   width: 11rem; height: auto; aspect-ratio: 3 / 4; object-fit: cover;
   padding: 3px; background: #fff; border: 1px solid var(--rule);
 }
 
-.research-list, .note-list { list-style: none; padding: 0; }
+.research-list { list-style: none; padding: 0; }
 .research-list li { margin: 0 0 1.2rem; }
 .research-list h3 { font-size: 1.1rem; }
 .research-list p { margin: 0; }
-.note-list time { margin-right: .6rem; color: var(--muted); font: .9rem var(--sans); font-variant-numeric: tabular-nums; }
 
 /* Aligned label / content rows (education, awards, service) */
 .timeline { display: grid; grid-template-columns: 5.5rem 1fr; gap: .9rem 1rem; margin: 0 0 1rem; }
@@ -114,10 +115,6 @@ li { margin: .25rem 0; }
   background: var(--soft); border: 1px solid var(--rule); font: .8rem/1.5 var(--mono); white-space: pre;
 }
 .bibtex code { font: inherit; }
-
-/* Notes */
-.note-meta { color: var(--muted); font: .88rem var(--sans); }
-.note:lang(zh) p { line-height: 1.9; }
 
 /* Figures */
 figure { margin: 1.4rem 0; }
@@ -193,6 +190,18 @@ figcaption { margin-top: .5rem; color: var(--muted); font-size: .92rem; }
 .has-js .net-readout { display: block; }
 .has-js .nojs-note { display: none; }
 
+/* Protocol-stack figure */
+.stack-svg { display: block; width: 100%; max-width: 38rem; height: auto; margin: 0 auto; background: #fff; border: 1px solid var(--rule); }
+.stack-svg text { fill: var(--text); font: 15px var(--serif); text-anchor: middle; }
+.stack-svg .layer rect { fill: rgb(27 79 138 / .06); stroke: var(--text); stroke-width: 1.5; }
+.stack-svg .layer.extension rect { fill: #fff; stroke: var(--muted); stroke-dasharray: 5 4; }
+.stack-svg .layer.extension text { fill: var(--muted); }
+.stack-svg .bracket { fill: none; stroke: var(--accent); stroke-width: 1.5; }
+.stack-svg .bracket.dashed { stroke-dasharray: 4 3; }
+.stack-svg .side-label { fill: var(--muted); font-size: 14.5px; text-anchor: end; }
+.stack-svg .note { fill: var(--accent); font-size: 14.5px; text-anchor: start; }
+.stack-svg .note tspan { text-anchor: start; }
+
 /* Footer */
 .site-footer {
   width: min(calc(100% - 2.5rem), calc(var(--measure) - 2.5rem)); margin: 3rem auto 0; padding: 1.2rem 0 2.5rem;
@@ -201,6 +210,8 @@ figcaption { margin-top: .5rem; color: var(--muted); font-size: .92rem; }
 .site-footer p { margin: 0 0 .2rem; }
 
 @media (max-width: 36rem) {
+  .stack-svg text { font-size: 18px; }
+  .stack-svg .side-label, .stack-svg .note { font-size: 17px; }
   .network-svg .node-label { font-size: 18px; }
   .network-svg .legend text { font-size: 16px; }
   .network-svg .disc text { font-size: 14.5px; }
