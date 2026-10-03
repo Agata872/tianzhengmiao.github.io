@@ -1,43 +1,33 @@
 <!doctype html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#0c1014">
+  <meta name="theme-color" content="#ffffff">
+  <meta name="author" content="$name">
   <meta name="description" content="$description">
   <meta property="og:title" content="$title">
   <meta property="og:description" content="$description">
   <meta property="og:type" content="website">
   <title>$title</title>
-  <script src="theme.js?v=2"></script>
   <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
-  <link rel="preload" href="fonts/space-grotesk-400-700-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="preload" href="fonts/source-serif-4-normal-latin.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="fonts/fonts.css">
-  <link rel="stylesheet" href="jemdoc.css?v=2">
-  <script src="main.js?v=2" defer></script>
+  <link rel="stylesheet" href="style.css?v=4">
+  $scripts
 </head>
 <body class="$body_class">
   <a class="skip-link" href="#main">Skip to content</a>
-  <div class="reading-progress" aria-hidden="true"></div>
   <header class="site-header">
-    <nav class="site-nav container" aria-label="Main navigation">
-      <a class="brand" href="index.html" aria-label="$name home"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>$name<span class="brand-period">.</span></span></a>
-      <div class="nav-links" id="primary-links">$navigation</div>
-      <div class="nav-tools">
-        <button class="theme-toggle icon-button" type="button" aria-label="Switch to light theme" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg></button>
-        <a class="nav-contact" href="mailto:$email">Let’s talk <span aria-hidden="true">↗</span></a>
-        <button class="menu-toggle icon-button" type="button" aria-controls="primary-links" aria-expanded="false" aria-label="Open navigation"><span></span><span></span></button>
-      </div>
+    <nav class="site-nav" aria-label="Main navigation">
+      <a class="site-name" href="index.html">$name</a>
+      <div class="nav-links">$navigation</div>
     </nav>
   </header>
   <main id="main">$content</main>
-  <footer class="site-footer container">
-    <div><a class="brand" href="index.html">$name<span class="brand-period">.</span></a><p>Wireless systems. Learning. And everything in between.</p></div>
-    <div class="footer-links"><a href="publication.html">Publications</a><a href="services.html">Service</a><a href="awards.html">Awards</a><a href="updates.html">Notes</a></div>
-    <div class="footer-bottom"><span>© <span data-current-year>2026</span> $name · $name_zh</span><span>$location <span class="tiny-dot" aria-hidden="true"></span></span><a href="#main">Back to top ↑</a></div>
+  <footer class="site-footer">
+    <p>© $year $name · <a href="mailto:$email">$email</a> · $location</p>
+    <p>Last updated $updated · <a href="awards.html">Awards</a></p>
   </footer>
-  <div class="toast" role="status" aria-live="polite"></div>
-  <dialog class="citation-dialog" aria-labelledby="citation-title"><div class="dialog-heading"><h2 id="citation-title">Cite this work</h2><button class="icon-button" type="button" data-close-dialog aria-label="Close citation">✕</button></div><pre><code id="citation-code"></code></pre><div class="dialog-actions"><button class="button button-primary" type="button" data-copy-citation>Copy BibTeX <span aria-hidden="true">↗</span></button><p class="citation-feedback" role="status"></p></div></dialog>
-  <dialog class="image-dialog" aria-label="Expanded research figure"><button class="icon-button" type="button" data-close-image aria-label="Close figure">✕</button><img alt=""><p></p></dialog>
 </body>
 </html>

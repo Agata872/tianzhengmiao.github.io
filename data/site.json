@@ -3,46 +3,40 @@
     "name": "Tianzheng Miao",
     "name_zh": "苗天正",
     "email": "tianzheng.miao@kuleuven.be",
-    "role": "Ph.D. researcher in Electrical Engineering",
-    "role_short": "Ph.D. researcher",
-    "institution": "KU Leuven",
-    "lab": "ESAT · WaveCore",
+    "position": "Marie Skłodowska-Curie Ph.D. Student",
+    "department": "WaveCore, Department of Electrical Engineering (ESAT)",
+    "institution": "KU Leuven, Ghent and Aalst Campuses",
+    "address": "Gebroeders De Smetstraat 1, 9000 Gent, Belgium",
     "location": "Ghent, Belgium",
     "portrait": "photo.jpg",
     "bio": "I explore how machine learning can make distributed wireless networks work better in the real world. My research connects physical-layer signal processing, cell-free massive MIMO, and experiments on real hardware.",
-    "supervisor": "François Rottenberg",
-    "supervisor_url": "https://francoisrottenberg.dramco.be",
-    "project_url": "https://www.empower6g.eu"
+    "about": [
+      "I am currently pursuing a Ph.D. in the Department of Electrical Engineering (ESAT) at KU Leuven under the supervision of [Prof. François Rottenberg](https://francoisrottenberg.dramco.be). Prior to this, I earned a B.Eng. in Telecommunication Engineering from [Xidian University](https://en.xidian.edu.cn/), Xi’an, China, in 2022, and an M.Phil. in Computer and Information Engineering from [The Chinese University of Hong Kong, Shenzhen](https://www.cuhk.edu.cn/en), China, in 2024, under the supervision of [Prof. Rui Zhang](https://sse.cuhk.edu.cn/en/faculty/zhangrui).",
+      "As part of the [EMPOWER-6G](https://www.empower6g.eu) project, my research focuses on designing and implementing physical layer (PHY) mechanisms to enable cell-free (CF) networking using real channel data from the KU Leuven testbed ([Techtile](https://ieeexplore.ieee.org/abstract/document/9815696)). Additionally, I am investigating dynamic algorithms for optimizing cooperation levels between DUs and APs, aiming to minimize interference at the regional edge while maintaining computational complexity at the CPU within practical limits."
+    ],
+    "interests_intro": "I have a wide range of interests in design and performance optimization for wireless communication systems. My current research focuses on:",
+    "interests": [
+      "Cell-free massive multiple-input multiple-output (CF-mMIMO)",
+      "Deep learning",
+      "Wireless sensing"
+    ],
+    "contact_note": "If you are interested in our work, or just want to have a casual chat, please feel free to email me. I am very willing to learn and exchange ideas with different people."
   },
   "projects": [
     {
       "id": "cellfree",
       "slug": "cellfree.html",
-      "title": "Intelligence at the physical layer.",
-      "subtitle": "AI-driven signal processing in distributed MIMO",
-      "summary": "Bringing graph neural networks out of simulation and into distributed wireless systems. From precoder design to fine-tuning with real-world channel measurements.",
-      "categories": [
-        "learning",
-        "wireless"
-      ],
-      "category_label": "Machine learning / Distributed MIMO",
+      "title": "AI-Driven Low-Physical-Layer Signal Processing in Distributed MIMO",
+      "summary": "Learning-based precoder design for cell-free massive MIMO: graph neural networks trained on synthetic channels and fine-tuned with real channel measurements from the Techtile testbed.",
       "image": "images/techtile.png",
       "preview": "images/techtile.webp",
-      "image_alt": "Techtile testbed and its distributed access points",
-      "status": "Research direction"
+      "image_alt": "Techtile testbed and its distributed access points"
     },
     {
       "id": "compress",
       "slug": "compress.html",
-      "title": "Make every bit count.",
-      "subtitle": "Efficient fronthaul compression",
-      "summary": "Exploring how to move less radio data between access points and processing units, while preserving the information a distributed network needs.",
-      "categories": [
-        "wireless",
-        "signal"
-      ],
-      "category_label": "Signal processing / Fronthaul",
-      "status": "Research direction"
+      "title": "Efficient Fronthaul Compression in Distributed Wireless Network Architectures",
+      "summary": "Reducing the radio data exchanged between access points and processing units while preserving the information a distributed network needs."
     }
   ],
   "publications": [
@@ -65,10 +59,6 @@
       "doi": "10.1109/WCNC65185.2026.11555282",
       "booktitle": "2026 IEEE Wireless Communications and Networking Conference (WCNC)",
       "pages": "1--6",
-      "tags": [
-        "learning",
-        "wireless"
-      ],
       "project": "cellfree.html"
     },
     {
@@ -90,10 +80,6 @@
       "preprint": "https://arxiv.org/abs/2505.08788",
       "doi": "10.48550/arXiv.2505.08788",
       "booktitle": "45th Symposium on Information Theory and Signal Processing (SITB)",
-      "tags": [
-        "learning",
-        "wireless"
-      ],
       "project": "cellfree-gnn.html"
     }
   ],
@@ -140,7 +126,6 @@
   "services": [
     {
       "role": "Journal reviewer",
-      "description": "Contributing to peer review in wireless communications and signal processing.",
       "items": [
         {
           "title": "IEEE Transactions on Wireless Communications"
@@ -155,7 +140,6 @@
     },
     {
       "role": "Conference reviewer",
-      "description": "Reviewing work across communication theory, wireless systems, and sustainable networks.",
       "items": [
         {
           "year": 2026,
@@ -199,7 +183,6 @@
     },
     {
       "role": "Technical program committee",
-      "description": "Supporting the exchange of ideas in the research community.",
       "items": [
         {
           "year": 2024,
@@ -207,13 +190,11 @@
         },
         {
           "year": 2023,
-          "title": "IEEE Vehicular Technology Conference (VTC)",
-          "detail": "Fall"
+          "title": "IEEE Vehicular Technology Conference (VTC-Fall)"
         },
         {
           "year": 2022,
-          "title": "IEEE Vehicular Technology Conference (VTC)",
-          "detail": "Fall"
+          "title": "IEEE Vehicular Technology Conference (VTC-Fall)"
         }
       ]
     }
@@ -258,28 +239,27 @@
     }
   ],
   "gnn": {
-    "title": "Learning from the real wireless world.",
-    "subtitle": "GNN-based precoding in cell-free massive MIMO",
+    "title": "GNN-based Precoder Design and Fine-tuning for Cell-free Massive MIMO with Real-world CSI",
     "overview": "Cell-free massive MIMO aims to provide uniform, high-quality wireless service through distributed access points. This work trains a graph neural network precoder on synthetic channel state information (CSI), then fine-tunes it with real measurements from the Techtile testbed.",
     "dataset_url": "https://kuleuven-my.sharepoint.com/:f:/g/personal/tianzheng_miao_kuleuven_be/ErQh2y6X6yxPj-w9WLlbVDIB52p2T0EXlAqj26fXwJBj7g?e=fOJr3W",
     "figures": [
       {
         "id": "system",
-        "title": "A distributed system",
+        "title": "System model",
         "image": "images/systemmodel.png",
         "alt": "Cell-free massive MIMO system model with distributed access points",
         "caption": "Distributed access points coordinate to serve user equipment across a common coverage area."
       },
       {
         "id": "architecture",
-        "title": "A graph of wireless links",
+        "title": "GNN architecture",
         "image": "images/graph.png",
         "alt": "Bipartite graph neural network architecture linking access points and users",
         "caption": "The GNN uses a bipartite graph to represent access point–user wireless links."
       },
       {
         "id": "testbed",
-        "title": "From simulation to the testbed",
+        "title": "Techtile testbed",
         "image": "images/techtile.png",
         "preview": "images/techtile.webp",
         "alt": "Techtile testbed with ceiling-mounted access points and a mobile user",
@@ -287,11 +267,17 @@
       },
       {
         "id": "results",
-        "title": "Fine-tuning, layer by layer",
+        "title": "Layer-freezing results",
         "image": "images/freeze.png",
         "alt": "Sum-rate comparison of graph neural network layer-freezing strategies",
         "caption": "Freezing four layers yields the best performance in this evaluation. Fine-tuning improves real-world sum-rate by 8.2 bits/channel use (approximately 15.7%). The model generalizes better than CB and performs close to ZF in practice."
       }
+    ],
+    "results": [
+      "Real channel measurements were collected at 500 spatial positions on the Techtile testbed, which has 33 ceiling-mounted access points; the positions produce diverse user combinations.",
+      "Fine-tuning improves the real-world sum rate by 8.2 bits/channel use (approximately 15.7%).",
+      "Freezing four layers yields the best performance among the layer-freezing strategies evaluated.",
+      "The fine-tuned model generalizes better than conjugate beamforming (CB) and performs close to zero-forcing (ZF) in practice."
     ]
   },
   "compression_questions": [

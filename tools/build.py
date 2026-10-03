@@ -4,6 +4,8 @@ from html import escape
 from pathlib import Path
 from string import Template
 import json
+import math
+import re
 
 ROOT = Path(__file__).resolve().parents[1]
 DATA = json.loads((ROOT / 'data/site.json').read_text(encoding='utf-8'))
@@ -15,48 +17,73 @@ def e(value):
     return escape(str(value), quote=True)
 
 
-def external(url, label, css='text-link'):
-    return f'<a class="{css}" href="{e(url)}" target="_blank" rel="noopener noreferrer">{label} <span aria-hidden="true">↗</span></a>'
+def rich(text):
+    """Escape text, then turn [label](https://...) into links."""
+    return re.sub(r'\[([^\]]+)\]\((https?://[^)\s]+)\)', r'<a href="\2">\1</a>', e(text))
 
 
-def tags(values):
-    return ''.join(f'<span class="tag">{e(t)}</span>' for t in values)
+def link(url, label):
+    return f'<a href="{e(url)}">{label}</a>'
 
 
-def heading(number, label, title, link=''):
-    return f'<div class="section-heading"><div><p class="eyebrow"><span>{number}</span> / {e(label)}</p><h2>{title}</h2></div>{link}</div>'
+def page_head(title, lead='', crumb=None):
+    back = f'<p class="crumb"><a href="{crumb[0]}">← {e(crumb[1])}</a></p>' if crumb else ''
+    intro = f'<p class="lead">{lead}</p>' if lead else ''
+    return f'<header class="page-head">{back}<h1>{title}</h1>{intro}</header>'
 
 
-def intro(label, title, description):
-    return f'<section class="page-intro container"><a class="back-link" href="index.html">← Back to home</a><p class="eyebrow">{e(label)}</p><h1>{title}</h1><p class="page-description">{e(description)}</p></section>'
+# Interactive schematic: ceiling-mounted APs and users (system model) or the bipartite graph used by the GNN.
+NETWORK = {
+    'scale': 170,
+    'bounds': [36, 185, 604, 338],
+    'anchor': [13, -13],
+    'system': {'aps': [[70 + 100 * i, 128] for i in range(6)], 'users': [[140, 270], [330, 235], [500, 290]]},
+    'graph': {'aps': [[70 + 100 * i, 100] for i in range(6)], 'users': [[170, 290], [320, 290], [470, 290]]},
+}
+AP_GLYPH = '<path d="M-8-12a9 9 0 0 0 0 11M8-12a9 9 0 0 1 0 11M-13-15a15 15 0 0 0 0 17M13-15a15 15 0 0 1 0 17"/><circle cy="-6" r="3.5"/><path d="M-6 14 0-2 6 14 0 10Z"/>'
+USER_GLYPH = '<path d="M0-10V9"/><circle cy="-12.5" r="2.6"/><ellipse cy="11" rx="8" ry="3"/>'
+NETWORK_TEXT = {
+    'system': 'Drag a user, or focus it and use the arrow keys: the channels H change, shown here as line weight. Select a node to highlight its links.',
+    'graph': 'Every AP–user wireless link is an edge of the bipartite graph. Select a node to see its edges, or step through the layers.',
+}
 
 
-def network():
-    positions = [(70, 70), (180, 48), (310, 60), (420, 105), (75, 185), (210, 135), (385, 230), (150, 290), (290, 285)]
-    lines = ''.join(f'<line class="signal-link" data-link="{i}" x1="{x}" y1="{y}" x2="250" y2="210"/>' for i, (x, y) in enumerate(positions))
-    nodes = ''.join(f'<g class="access-point" data-node="{i}" data-x="{x}" data-y="{y}" role="button" tabindex="0" aria-label="Inspect access point {i + 1}" aria-pressed="false" transform="translate({x} {y})"><circle class="node-hit" r="22"/><circle class="node-ring" r="13"/><circle class="node-core" r="4"/><text x="18" y="-13">AP.{i + 1:02}</text></g>' for i, (x, y) in enumerate(positions))
-    return f'''<figure class="network-panel" data-network>
-      <div class="panel-topline"><span><span class="tiny-dot"></span> DISTRIBUTED NETWORK</span><span>FIG. 01</span></div>
-      <div class="network-stage"><svg class="network-svg" viewBox="0 0 500 350" aria-labelledby="network-title network-description"><title id="network-title">Explore a cell-free wireless network</title><desc id="network-description">Nine access points connect to a mobile user. Move the user with the slider or pointer and select an access point to inspect its connection. This is a conceptual illustration.</desc><defs><pattern id="network-grid" width="25" height="25" patternUnits="userSpaceOnUse"><path d="M25 0H0V25" fill="none" stroke="currentColor" stroke-width=".5"/></pattern></defs><rect width="500" height="350" fill="url(#network-grid)" class="network-grid"/><path class="room-boundary" d="M35 25H455V320H35Z"/><g class="signal-links">{lines}</g>{nodes}<g class="mobile-user" transform="translate(250 210)"><circle class="user-aura" r="25"/><circle class="user-ring" r="11"/><circle class="user-core" r="4"/><text x="18" y="23">USER.01</text></g><text class="diagram-axis" x="35" y="341">x / SPACE</text><text class="diagram-axis" x="380" y="341">CELL-FREE MIMO</text></svg></div>
-      <div class="network-legend"><span><i class="legend-ap"></i> Access point</span><span><i class="legend-user"></i> Mobile user</span><span class="schematic-label">Conceptual schematic</span></div>
-      <div class="network-controls enhancement"><label for="user-position">MOVE THE USER</label><input id="user-position" type="range" min="0" max="100" value="50" aria-label="Mobile user position"><button class="icon-button" type="button" data-network-pause aria-label="Pause signal animation" aria-pressed="false">Ⅱ</button></div>
-      <p class="network-readout" aria-live="polite">Shared coverage. Distributed intelligence.</p>
-    </figure>'''
+def link_weight(ap, user):
+    return 1 / (1 + (math.hypot(ap[0] - user[0], ap[1] - user[1]) / NETWORK['scale']) ** 2)
 
 
-def fronthaul_art():
-    return '''<div class="fronthaul-art" aria-label="Conceptual fronthaul architecture"><span class="art-label">SIGNAL PATH / FRONTHAUL</span><div class="architecture"><div class="ap-stack"><span>AP.01</span><span>AP.02</span><span>AP.03</span></div><span class="architecture-lines" aria-hidden="true">〉</span><div class="processing-node"><span class="tiny-dot"></span> COMPRESS<br><small>Distributed unit</small></div><span class="data-stream" aria-hidden="true"><i></i><i></i><i></i><i></i></span><div class="cpu-node">CPU<br><small>Central processor</small></div></div><div class="art-bottom"><span>I/Q SAMPLES → COMPACT REPRESENTATION</span><span aria-hidden="true">↗</span></div></div>'''
-
-
-def project_cards():
-    result = ''
-    for i, project in enumerate(DATA['projects'], 1):
-        if project.get('image'):
-            art = f'<div class="project-photo"><img src="{e(project.get("preview", project["image"]))}" alt="{e(project["image_alt"])}" loading="lazy" width="3219" height="1565"><span class="photo-label">TECHTILE / REAL-WORLD TESTBED</span></div>'
-        else:
-            art = fronthaul_art()
-        result += f'''<article class="project-card" data-filter-item data-categories="{e(' '.join(project['categories']))}">{art}<div class="project-copy"><p class="project-meta"><span>R.{i:02}</span> {e(project['category_label'])}</p><h3><a href="{e(project['slug'])}">{e(project['title'])}</a></h3><p>{e(project['summary'])}</p><a class="text-link" href="{e(project['slug'])}">Explore the research <span aria-hidden="true">↗</span></a></div></article>'''
-    return result
+def network_figure(number, view='system'):
+    pos = NETWORK[view]
+    links = ''
+    blend = 1 if view == 'system' else 0  # links attach to the icons in the system view and to the node centres in the graph view
+    for m, ap in enumerate(pos['aps']):
+        for k, user in enumerate(pos['users']):
+            w = link_weight(ap, user)
+            links += f'<line class="link" data-m="{m}" data-k="{k}" x1="{ap[0]}" y1="{ap[1] + NETWORK['anchor'][0] * blend}" x2="{user[0]}" y2="{user[1] + NETWORK['anchor'][1] * blend}" style="stroke-width:{.5 + 2 * w:.2f};opacity:{.1 + .8 * w:.2f}"/>'
+    sys_aps = NETWORK['system']['aps']
+    fronthaul = f'<path d="M320 50V84M{sys_aps[0][0]} 84H{sys_aps[-1][0]}' + ''.join(f'M{x} 84V108' for x, _ in sys_aps) + '"/>'
+    nn_in, nn_mid, nn_out = [(412, 25), (412, 41)], [(434, 17), (434, 33), (434, 49)], [(456, 33)]
+    nn_edges = ''.join(f'M{a[0]} {a[1]}L{b[0]} {b[1]}' for left, right in ((nn_in, nn_mid), (nn_mid, nn_out)) for a in left for b in right)
+    nn_nodes = ''.join(f'<circle cx="{x}" cy="{y}" r="4.5"' + (' class="fill"' if (x, y) in nn_in else '') + '/>' for x, y in nn_in + nn_mid + nn_out)
+    ap_nodes = ''.join(f'<g class="node ap" data-m="{i}" transform="translate({x} {y})"><circle class="hit" r="28"/><g class="glyph">{AP_GLYPH}</g><g class="disc"><circle r="19"/><text y="4"><tspan class="ix">m</tspan> = {i + 1}</text></g><text class="node-label ap-label" x="20" y="-2">AP {i + 1}</text></g>' for i, (x, y) in enumerate(pos['aps']))
+    user_nodes = ''.join(f'<g class="node user" data-k="{k}" transform="translate({x} {y})"><circle class="hit" r="28"/><g class="glyph">{USER_GLYPH}</g><g class="disc"><circle r="19"/><text y="4"><tspan class="ix">k</tspan> = {k + 1}</text></g><text class="node-label" y="32">User {k + 1}</text></g>' for k, (x, y) in enumerate(pos['users']))
+    layout = e(json.dumps(NETWORK, separators=(',', ':')))
+    caption = (f'<strong>Figure {number}.</strong> Schematic of a cell-free massive MIMO network with M = {len(sys_aps)} ceiling-mounted access points (APs) and '
+               f'K = {len(NETWORK["system"]["users"])} users. The APs are connected to a central processing unit (CPU) over the fronthaul, and the CPU maps the channel matrix <strong>H</strong> to the precoder <strong>W</strong>. '
+               'The bipartite-graph view shows the same network as the GNN sees it, with one edge per AP–user wireless link. Line weights are illustrative, not measured. <span class="nojs-note">The interactive views need JavaScript.</span>')
+    pressed_system = 'true' if view == 'system' else 'false'
+    pressed_graph = 'true' if view == 'graph' else 'false'
+    return f"""<figure class="network-figure" data-network data-view="{view}" data-step="0" data-layout="{layout}">
+      <svg class="network-svg" viewBox="0 0 640 380" role="group" aria-labelledby="net-title net-desc"><title id="net-title">Cell-free massive MIMO network and its bipartite graph</title><desc id="net-desc">Six ceiling-mounted access points are linked to three users by wireless links and to a CPU by the fronthaul. The CPU maps the channel matrix H to the precoder W. The graph view redraws the same network as a bipartite graph with access points on one side and users on the other.</desc>
+        <g class="sys-only"><path class="floor" d="M30 350H610"/><g class="fronthaul">{fronthaul}</g><rect class="cpu" x="272" y="14" width="96" height="36" rx="2"/><text class="cpu-label" x="320" y="37">CPU</text><text class="matrix" x="384" y="38">H</text><g class="nn"><path d="{nn_edges}"/>{nn_nodes}</g><text class="matrix" x="478" y="38">W</text>
+          <g class="legend"><path d="M36 369h30" class="fronthaul-key"/><text x="74" y="373">fronthaul</text><path d="M160 369h30" class="link-key"/><text x="198" y="373">wireless link</text></g></g>
+        <g class="graph-only"><text class="row-label" x="320" y="52">Access points <tspan class="ix">m</tspan> = 1, …, <tspan class="ix">M</tspan></text><text class="row-label" x="320" y="344">Users <tspan class="ix">k</tspan> = 1, …, <tspan class="ix">K</tspan></text>
+          <g class="badge badge-h"><text x="20" y="200">H</text><path d="M34 196h16m-5-4 5 4-5 4"/></g><g class="badge badge-w"><path d="M590 196h16m-5-4 5 4-5 4"/><text x="614" y="200">W</text></g></g>
+        <g class="links">{links}</g><g class="aps">{ap_nodes}</g><g class="users">{user_nodes}</g></svg>
+      <div class="net-controls"><div class="net-views" role="group" aria-label="Choose a view"><button type="button" data-view-btn="system" aria-pressed="{pressed_system}">System model</button><button type="button" data-view-btn="graph" aria-pressed="{pressed_graph}">Bipartite graph</button></div><button type="button" class="net-step" data-advance disabled>Step through the layers ▸</button></div>
+      <p class="net-readout" role="status" aria-live="polite" data-readout>{e(NETWORK_TEXT[view])}</p>
+      <figcaption>{caption}</figcaption>
+    </figure>"""
 
 
 def bibtex(pub):
@@ -71,132 +98,155 @@ def bibtex(pub):
     return '@' + entry_type + '{miao' + pub['id'].replace('-', '') + ',\n' + ',\n'.join(f'  {k} = {{{v}}}' for k, v in fields.items()) + '\n}'
 
 
-def publication_rows(limit=None, project_ids=None):
-    rows = ''
+def publication_item(pub):
+    authors = ', '.join(f'<strong>{e(a)}</strong>' if a == PROFILE['name'] else e(a) for a in pub['authors'])
+    venue = pub.get('booktitle', pub['venue'])
+    where = f'<em>{e(venue)}</em>'
+    if pub.get('pages'):
+        where += ', pp. ' + e(pub['pages'].replace('--', '–'))
+    where += f', {pub["year"]}.'
+    if pub.get('doi') and not pub['doi'].startswith('10.48550/'):  # arXiv DOIs are linked as "arXiv" instead
+        where += f' doi: {link("https://doi.org/" + pub["doi"], e(pub["doi"]))}.'
+    links = [link(pub['url'], 'Paper')]
+    if pub.get('preprint'):
+        links.append(link(pub['preprint'], 'arXiv'))
+    if pub.get('project'):
+        links.append(link(pub['project'], 'Project page'))
+    bib = f'<details class="bibtex"><summary>BibTeX</summary><pre><code>{e(bibtex(pub))}</code></pre><a href="citations/{e(pub["id"])}.bib" download>Download .bib</a></details>'
+    return f'''<li class="publication"><p class="pub-title">{link(pub['url'], e(pub['title']))}</p><p class="pub-authors">{authors}</p><p class="pub-venue">{where}</p><div class="pub-links">{''.join(links)}{bib}</div></li>'''
+
+
+def publication_list(limit=None, project_ids=None, group_by_year=False):
     papers = sorted(DATA['publications'], key=lambda p: p['year'], reverse=True)
     if project_ids is not None:
         papers = [p for p in papers if p.get('project') in project_ids]
     if limit is not None:
         papers = papers[:limit]
-    for pub in papers:
-        authors = ', '.join(f'<strong>{e(a)}</strong>' if a == PROFILE['name'] else e(a) for a in pub['authors'])
-        citation_path = f'citations/{pub["id"]}.bib'
-        links = external(pub['url'], 'Paper', 'small-link')
-        if pub.get('preprint'):
-            links += external(pub['preprint'], 'arXiv', 'small-link')
-        if pub.get('project'):
-            links += f'<a class="small-link" href="{e(pub["project"])}">Project ↗</a>'
-        links += f'<button class="small-link cite-button enhancement" type="button" data-citation="{e(bibtex(pub))}" aria-label="Show BibTeX for {e(pub["title"])}">Cite <span aria-hidden="true">↗</span></button><a class="small-link bib-download" href="{citation_path}" download>BibTeX ↓</a>'
-        rows += f'''<article class="publication-row" data-filter-item data-year="{pub['year']}" data-categories="{e(' '.join(pub.get('tags', [])))}"><div class="publication-year">{pub['year']}<span>{e(pub['type'])}</span></div><div class="publication-body"><p class="eyebrow publication-venue">{e(pub['venue'])} / {pub['year']}</p><h3>{external(pub['url'], e(pub['title']), 'paper-title')}</h3><p class="authors">{authors}</p><div class="paper-links">{links}</div></div><span class="publication-index" aria-hidden="true">↗</span></article>'''
-    return rows
+    if not group_by_year:
+        return '<ul class="publication-list">' + ''.join(publication_item(p) for p in papers) + '</ul>'
+    result = ''
+    for year in sorted({p['year'] for p in papers}, reverse=True):
+        items = ''.join(publication_item(p) for p in papers if p['year'] == year)
+        result += f'<section class="year-group" id="y{year}"><h2>{year}</h2><ul class="publication-list">{items}</ul></section>'
+    return result
 
 
-def filters(scope, choices, search=False, years=False):
-    controls = f'<div class="filter-tabs" role="group" aria-label="Filter {scope}">' + ''.join(f'<button class="filter-button {"is-selected" if key == "all" else ""}" type="button" data-filter="{key}" aria-pressed="{"true" if key == "all" else "false"}">{e(label)}</button>' for key, label in choices) + '</div>'
-    if search:
-        controls = f'<label class="search-field"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="10.5" cy="10.5" r="6.5"/><path d="m16 16 5 5"/></svg><span class="sr-only">Search {scope}</span><input type="search" data-search placeholder="Search {scope}…" autocomplete="off"></label>' + controls
-    if years:
-        options = ''.join(f'<option value="{y}">{y}</option>' for y in sorted({p['year'] for p in DATA['publications']}, reverse=True))
-        controls += f'<label class="year-filter"><span class="sr-only">Publication year</span><select data-year-filter><option value="all">All years</option>{options}</select></label>'
-    return f'<div class="filter-bar enhancement">{controls}</div><p class="filter-status sr-only" role="status" aria-live="polite"></p>'
-
-
-def empty_state(label):
-    return f'<div class="empty-state" hidden><span aria-hidden="true">⌕</span><h3>No matching {label}.</h3><p>Try another search or clear your filters.</p><button class="button button-outline" type="button" data-reset-filters>Clear filters</button></div>'
+def timeline(rows):
+    """rows: (label, html) pairs rendered as an aligned two-column list."""
+    return '<dl class="timeline">' + ''.join(f'<dt>{e(label)}</dt><dd>{body}</dd>' for label, body in rows) + '</dl>'
 
 
 def education():
-    rows = ''
+    rows = []
     for item in DATA['education']:
-        detail = e(item.get('detail', ''))
+        body = f'<strong>{e(item["title"])}</strong><br>{e(item["institution"])}'
+        if item.get('detail'):
+            body += f'<br><span class="muted">{e(item["detail"])}</span>'
         if item.get('supervisor'):
-            detail += ' Supervised by ' + external(item['url'], e(item['supervisor'])) + '.'
-        rows += f'<article class="timeline-item"><span class="timeline-date">{e(item["year"])}</span><div><h3>{e(item["title"])}</h3><p class="timeline-institution">{e(item["institution"])}</p><p class="timeline-detail">{detail}</p></div></article>'
-    return rows
+            body += '<br><span class="muted">Supervisor: ' + link(item['url'], e(item['supervisor'])) + '</span>'
+        rows.append((item['year'], body))
+    return timeline(rows)
 
 
-def note_previews():
-    return ''.join(f'<a class="note-preview" href="updates.html#{e(p["id"])}"><div class="note-preview-meta"><time datetime="{p["date"]}">{p["date"].replace("-", ".")}</time><span>{e(p["tags"][0])}</span></div><h3 lang="{e(p["lang"])}">{e(p["title"])}</h3><p lang="{e(p["lang"])}">{e(p["paragraphs"][0][:76])}…</p><span class="text-link">Read the note <span aria-hidden="true">↗</span></span></a>' for p in sorted(DATA['posts'], key=lambda p: p['date'], reverse=True)[:2])
+def awards_rows():
+    return timeline([(a['year'], f'<strong>{e(a["title"])}</strong><br><span class="muted">{e(a["event"])}</span>') for a in DATA['awards']])
 
 
-def contact():
-    email = e(PROFILE['email'])
-    return f'''<section class="contact-section container" id="contact"><div class="contact-grid"><div><p class="eyebrow">NEXT CONNECTION / YOUR IDEA</p><h2>Good ideas start<br>with a conversation<span class="accent">.</span></h2><p>Wireless systems, machine learning, or something worth exploring together.</p></div><div class="contact-actions"><a class="button button-primary" href="mailto:{email}">Get in touch <span aria-hidden="true">↗</span></a><button class="copy-email enhancement" type="button" data-copy="{email}" aria-label="Copy email address">{email} <span aria-hidden="true">⧉</span></button></div></div></section>'''
+def sorted_posts():
+    return sorted(DATA['posts'], key=lambda p: p['date'], reverse=True)
 
 
 def home():
     p = PROFILE
-    intro_copy = e(p['bio'])
-    return f'''<section class="hero container" id="about">
-      <div class="hero-topline"><span>WIRELESS SYSTEMS × MACHINE LEARNING</span><span class="hero-coordinate">PERSONAL RESEARCH LAB / TM</span></div>
-      <div class="hero-grid"><div class="hero-copy"><p class="hero-greeting">Hi, I’m <strong>{e(p['name'])}.</strong> <span lang="zh-CN">{e(p['name_zh'])}</span></p><h1>Intelligence,<br><span class="accent">connected.</span></h1><p class="hero-description">Building smarter wireless networks.<br>From learning algorithms to real-world experiments.</p><div class="hero-actions"><a class="button button-primary" href="#research">Explore my research <span aria-hidden="true">↘</span></a><a class="button button-outline" href="publication.html">Publications <span aria-hidden="true">↗</span></a></div><div class="hero-affiliation"><span class="status-dot" aria-hidden="true"></span><span>{e(p['role_short'])} <span class="muted">/</span> {e(p['institution'])}<br><small>{e(p['lab'])} · {e(p['location'])}</small></span></div></div>{network()}</div>
-      <div class="hero-bottomline"><a href="#research"><span aria-hidden="true">↓</span> SCROLL TO EXPLORE</a><span>RESEARCH, WITH A REAL-WORLD SIGNAL.</span></div>
+    email = e(p['email'])
+    about = ''.join(f'<p>{rich(text)}</p>' for text in p['about'])
+    interests = ''.join(f'<li>{e(item)}</li>' for item in p['interests'])
+    research = ''.join(f'<li><h3>{link(x["slug"], e(x["title"]))}</h3><p>{e(x["summary"])}</p></li>' for x in DATA['projects'])
+    notes = ''.join(f'<li><time datetime="{post["date"]}">{post["date"].replace("-", ".")}</time> <a href="updates.html#{e(post["id"])}" lang="{e(post["lang"])}">{e(post["title"])}</a></li>' for post in sorted_posts()[:3])
+    return f'''<section class="profile">
+      <div class="profile-text"><h1>{e(p['name'])} <span class="name-zh" lang="zh-CN">{e(p['name_zh'])}</span></h1>
+      <p class="position">{e(p['position'])}<br>{e(p['department'])}<br>{e(p['institution'])}</p>
+      <p class="address">{e(p['address'])}<br>Email: <a href="mailto:{email}">{email}</a></p></div>
+      <img class="portrait" src="{e(p['portrait'])}" alt="Portrait of {e(p['name'])}" width="1280" height="1706">
     </section>
-    <section class="about-section container" aria-labelledby="about-title"><div class="portrait"><img src="{e(p['portrait'])}" alt="Portrait of {e(p['name'])}" width="1280" height="1706"><span class="portrait-label">THE HUMAN / TM</span></div><div class="about-copy"><p class="eyebrow">A LITTLE ABOUT ME</p><h2 id="about-title">Curiosity meets the physical world.</h2><p>{intro_copy}</p><p>I’m a {e(p['role_short'])} at <strong>{e(p['institution'])}</strong>, supervised by {external(p['supervisor_url'], 'Prof. ' + e(p['supervisor']))}. My work is part of {external(p['project_url'], 'EMPOWER-6G')}.</p><div class="interest-tags">{tags(['Cell-free massive MIMO', 'Graph neural networks', 'Wireless sensing'])}</div></div></section>
-    <section class="section container" id="research">{heading('01', 'Research directions', 'Ideas. Algorithms. Experiments.', '<span class="section-aside">FROM THE MODEL TO THE TESTBED ↘</span>')}<div data-filter-scope="projects">{filters('projects', [('all', 'All research'), ('learning', 'AI & learning'), ('wireless', 'Wireless systems'), ('signal', 'Signal processing')])}<div class="project-grid">{project_cards()}</div>{empty_state('projects')}</div></section>
-    <section class="section publication-section container" id="publications">{heading('02', 'Selected publications', 'Written. Tested. Shared.', '<a class="text-link" href="publication.html">All publications ↗</a>')}<div class="publication-list">{publication_rows(limit=3)}</div></section>
-    <section class="section container" id="journey">{heading('03', 'The path so far', 'Always a little further.')}<div class="journey-grid"><div class="timeline">{education()}</div><aside class="community-panel"><div class="community-mark" aria-hidden="true">✳</div><p class="eyebrow">PART OF A BIGGER CONVERSATION</p><h3>Research is a<br>team effort.</h3><p>Contributing through peer review and technical program committees.</p><a class="text-link" href="services.html">Professional service ↗</a><a class="text-link" href="awards.html">Awards & milestones ↗</a></aside></div></section>
-    <section class="section container" id="notes">{heading('04', 'Beyond the papers', 'Notes from the process.', '<a class="text-link" href="updates.html">All notes ↗</a>')}<div class="note-grid">{note_previews()}</div></section>{contact()}'''
+    <section class="block" id="about"><h2>About</h2>{about}</section>
+    <section class="block" id="interests"><h2>Research Interests</h2><p>{e(p['interests_intro'])}</p><ul>{interests}</ul></section>
+    <section class="block" id="research"><h2>Research</h2><ul class="research-list">{research}</ul></section>
+    <section class="block" id="publications"><h2>Selected Publications</h2>{publication_list(limit=5)}<p class="more">{link('publication.html', 'All publications →')}</p></section>
+    <section class="block" id="education"><h2>Education</h2>{education()}</section>
+    <section class="block" id="awards"><h2>Awards</h2>{awards_rows()}</section>
+    <section class="block" id="notes"><h2>Recent Notes</h2><ul class="note-list">{notes}</ul><p class="more">{link('updates.html', 'All notes →')}</p></section>
+    <section class="block" id="contact"><h2>Contact</h2><p>{e(p['contact_note'])}</p><p><a href="mailto:{email}">{email}</a></p></section>'''
 
 
 def publications():
-    return intro('RESEARCH OUTPUT / PUBLICATIONS', 'From ideas<br>to <span class="accent">published work.</span>', 'Papers on learning-based signal processing and distributed wireless systems. Explore the work, read a preprint, or grab a citation.') + f'''<section class="container archive-section" data-filter-scope="publications">{filters('publications', [('all', 'All topics'), ('learning', 'AI & learning'), ('wireless', 'Wireless systems')], search=True, years=True)}<div class="archive-summary"><span>PUBLICATION ARCHIVE</span><span data-result-count>{len(DATA['publications'])} papers</span></div><div class="publication-list">{publication_rows()}</div>{empty_state('publications')}</section>'''
+    lead = f'Peer-reviewed papers, with links to the publisher or arXiv and a BibTeX record for each. My name is shown in <strong>bold</strong>.'
+    return page_head('Publications', lead) + publication_list(group_by_year=True)
 
 
 def services():
-    content = intro('COMMUNITY / PROFESSIONAL SERVICE', 'The conversation<br><span class="accent">continues.</span>', 'Supporting the research community through journal and conference peer review, and technical program committees.')
-    content += '<section class="container service-section">'
-    for i, group in enumerate(DATA['services'], 1):
-        rows = ''.join(f'<li><span class="service-year">{e(item.get("year", "—"))}</span><div><h3>{e(item["title"])}</h3>' + (f'<p>{e(item["detail"])}</p>' if item.get('detail') else '') + '</div></li>' for item in group['items'])
-        content += f'<section class="service-group"><div class="service-heading"><p class="eyebrow">S.{i:02} / {len(group["items"]):02} ENTRIES</p><h2>{e(group["role"])}</h2><p>{e(group["description"])}</p></div><ul class="service-list">{rows}</ul></section>'
-    return content + '</section>'
+    content = page_head('Professional Service')
+    for group in DATA['services']:
+        items = group['items']
+        if all(item.get('year') for item in items):
+            rows = [(item['year'], e(item['title']) + (f'<br><span class="muted">{e(item["detail"])}</span>' if item.get('detail') else '')) for item in items]
+            body = timeline(rows)
+        else:
+            body = '<ul>' + ''.join(f'<li>{e(item["title"])}</li>' for item in items) + '</ul>'
+        content += f'<section class="block"><h2>{e(group["role"])}</h2>{body}</section>'
+    return content
 
 
 def awards():
-    content = intro('JOURNEY / AWARDS', 'Small milestones.<br><span class="accent">Lasting motivation.</span>', 'A few moments of recognition along the way, from mathematical modeling to innovation and entrepreneurship.')
-    rows = ''.join(f'<article class="award-row"><span class="award-year">{a["year"]}</span><div><p class="eyebrow">RECOGNITION / {i:02}</p><h2>{e(a["title"])}</h2><p>{e(a["event"])}</p></div><span class="award-symbol" aria-hidden="true">✳</span></article>' for i, a in enumerate(DATA['awards'], 1))
-    return content + f'<section class="container award-list">{rows}<a class="text-link" href="index.html#journey">Explore my academic journey ↗</a></section>'
+    return page_head('Awards', crumb=('index.html#awards', 'Home')) + f'<section class="block">{awards_rows()}</section>'
 
 
 def updates():
-    content = intro('FIELD NOTES / UPDATES', 'A work in<br><span class="accent">progress.</span>', 'Research logs, small discoveries, and thoughts beyond the lab. Some in English, some in Chinese. All part of the process.')
-    focus = ''.join(f'<li>{e(f)}</li>' for f in DATA['focus'])
-    content += f'<section class="container notes-archive"><aside class="pinned-note"><div><p class="eyebrow"><span aria-hidden="true">↗</span> PINNED / CURRENT FOCUS</p><h2>On my radar.</h2></div><ul>{focus}</ul></aside><div data-filter-scope="notes">'
-    choices = [('all', 'All notes')] + [(tag, tag.capitalize()) for tag in sorted({tag for p in DATA['posts'] for tag in p['tags']})]
-    content += filters('notes', choices, search=True)
-    content += f'<div class="archive-summary"><span>NOTES / LATEST FIRST</span><span data-result-count>{len(DATA["posts"])} notes</span></div><div class="posts">'
-    for p in sorted(DATA['posts'], key=lambda p: p['date'], reverse=True):
-        paragraphs = ''.join(f'<p>{e(text)}</p>' for text in p['paragraphs'])
-        content += f'''<article class="post" id="{e(p['id'])}" data-filter-item data-categories="{e(' '.join(p['tags']))}"><div class="post-meta"><time datetime="{e(p['date'])}">{p['date'].replace('-', '.')}</time><div>{tags(p['tags'])}</div><a class="post-permalink" href="#{e(p['id'])}" aria-label="Permanent link to {e(p['title'])}">#</a></div><details><summary><h2 lang="{e(p['lang'])}">{e(p['title'])}</h2><p class="post-excerpt" lang="{e(p['lang'])}">{e(p['paragraphs'][0][:100])}…</p><span class="post-expand"><span class="read-label">Read note</span><span class="close-label">Close note</span> <span aria-hidden="true">+</span></span></summary><div class="post-body" lang="{e(p['lang'])}">{paragraphs}</div></details></article>'''
-    return content + '</div>' + empty_state('notes') + '</div></section>'
+    content = page_head('Notes', 'Research logs and personal reflections, written in English or Chinese.')
+    focus = ''.join(f'<li>{e(item)}</li>' for item in DATA['focus'])
+    content += f'<section class="block" id="focus"><h2>Current Focus</h2><ul>{focus}</ul></section>'
+    for post in sorted_posts():
+        paragraphs = ''.join(f'<p>{e(text)}</p>' for text in post['paragraphs'])
+        content += f'''<article class="block note" id="{e(post['id'])}" lang="{e(post['lang'])}"><h2>{e(post['title'])}</h2><p class="note-meta"><time datetime="{e(post['date'])}">{post['date'].replace('-', '.')}</time> · {e(', '.join(post['tags']))} · <a href="#{e(post['id'])}" aria-label="Permanent link to {e(post['title'])}">link</a></p>{paragraphs}</article>'''
+    return content
+
+
+def figure(number, image, preview, alt, caption):
+    return f'<figure><a href="{e(image)}"><img src="{e(preview)}" alt="{e(alt)}" loading="lazy"></a><figcaption><strong>Figure {number}.</strong> {e(caption)}</figcaption></figure>'
 
 
 def cellfree():
     p = DATA['projects'][0]
-    content = intro('RESEARCH / DISTRIBUTED MIMO', 'Intelligence at<br><span class="accent">the physical layer.</span>', p['summary'])
-    content += f'''<section class="container research-overview"><div class="research-context"><p class="eyebrow">RESEARCH DIRECTION / R.01</p><h2>A network that learns<br>from the real world.</h2><p>Cell-free massive MIMO brings distributed access points together to serve users. My work explores learning-based precoding, transfer learning, and validation with real channel measurements.</p><div class="interest-tags">{tags(['Cell-free MIMO', 'Transfer learning', 'Real-world CSI'])}</div></div><figure class="testbed-figure"><img src="{e(p.get('preview', p['image']))}" alt="Techtile distributed MIMO testbed" width="3219" height="1565" loading="lazy"><figcaption>Techtile / connecting algorithms to hardware.</figcaption></figure></section><section class="container section">{heading('01', 'Featured study', 'GNN-based precoding.')}<a class="study-link" href="cellfree-gnn.html"><div><p class="eyebrow">2025 / REAL-WORLD CSI</p><h3>GNN-based Precoder Design and Fine-tuning</h3><p>Training on synthetic channels. Adapting to real measurements. Explore the architecture, dataset, and results.</p></div><span aria-hidden="true">↗</span></a></section><section class="container section">{heading('02', 'Related publications', 'Evidence from the testbed.')}<div class="publication-list">{publication_rows(project_ids=['cellfree.html', 'cellfree-gnn.html'])}</div></section>'''
+    content = page_head(e(p['title']), e(p['summary']), crumb=('index.html#research', 'Research'))
+    content += '<p class="keywords"><strong>Keywords:</strong> cell-free massive MIMO, graph neural networks, transfer learning, real-world CSI</p>'
+    content += '<section class="block"><h2>Overview</h2><p>Cell-free massive MIMO brings distributed access points together to serve users. My work explores learning-based precoding, transfer learning, and validation with real channel measurements.</p>'
+    content += network_figure(1, 'system')
+    content += figure(2, p['image'], p.get('preview', p['image']), p['image_alt'], 'The Techtile testbed with ceiling-mounted distributed access points and a mobile user.') + '</section>'
+    content += f'<section class="block"><h2>Featured Study</h2><p>{link("cellfree-gnn.html", e(DATA["gnn"]["title"]))}<br><span class="muted">Training on synthetic channels, adapting to real measurements. The page covers the system model, architecture, testbed, results, and dataset.</span></p></section>'
+    content += '<section class="block"><h2>Related Publications</h2>' + publication_list(project_ids=['cellfree.html', 'cellfree-gnn.html']) + '</section>'
     return content
-
-
-def figure(item):
-    return f'<figure class="research-figure"><a href="{e(item["image"])}" data-enlarge aria-label="Expand figure: {e(item["alt"])}"><img src="{e(item.get("preview", item["image"]))}" alt="{e(item["alt"])}" loading="lazy"><span class="figure-expand" aria-hidden="true">⤢</span></a><figcaption>{e(item["caption"])}</figcaption></figure>'
 
 
 def gnn():
     g = DATA['gnn']
-    content = intro('RESEARCH / GNN-BASED PRECODING', 'Learning from<br><span class="accent">real-world signals.</span>', g['overview'])
-    toc = ''.join(f'<a href="#{f["id"]}">{i:02} / {e(f["title"])}</a>' for i, f in enumerate(g['figures'], 1))
-    content += f'<div class="container detail-layout"><aside class="detail-sidebar"><p class="eyebrow">IN THIS STUDY</p><nav aria-label="Study sections">{toc}<a href="#publication">05 / Publication</a></nav>{external(g["dataset_url"], "Download dataset", "button button-outline")}<p class="sidebar-note">Original measurements from the Techtile testbed.</p></aside><div class="detail-body"><div class="result-strip"><div><strong>33</strong><span>Access points</span></div><div><strong>500</strong><span>Spatial positions</span></div><div><strong>+8.2</strong><span>bits/channel use</span></div></div>'
-    for f in g['figures']:
-        content += f'<section class="study-section" id="{f["id"]}"><h2>{e(f["title"])}</h2>{figure(f)}</section>'
-    content += '<section class="study-section" id="publication"><h2>The publication</h2><div class="publication-list">' + publication_rows(project_ids=['cellfree-gnn.html']) + '</div></section>'
-    return content + '</div></div>'
+    content = page_head(e(g['title']), e(g['overview']), crumb=('cellfree.html', 'AI-driven signal processing in distributed MIMO'))
+    results = ''.join(f'<li>{e(item)}</li>' for item in g['results'])
+    content += f'<section class="block"><h2>Key Results</h2><ul>{results}</ul><p>{link(g["dataset_url"], "Download the dataset")} <span class="muted">(original measurements from the Techtile testbed)</span></p></section>'
+    content += '<section class="block" id="overview"><h2>Interactive Overview</h2>' + network_figure(1, 'graph') + '</section>'
+    for number, f in enumerate(g['figures'], 2):
+        content += f'<section class="block" id="{e(f["id"])}"><h2>{e(f["title"])}</h2>{figure(number, f["image"], f.get("preview", f["image"]), f["alt"], f["caption"])}</section>'
+    content += '<section class="block" id="publication"><h2>Publication</h2>' + publication_list(project_ids=['cellfree-gnn.html']) + '</section>'
+    return content
 
 
 def compress():
-    content = intro('RESEARCH / FRONTHAUL COMPRESSION', 'Less to send.<br><span class="accent">More to connect.</span>', DATA['projects'][1]['summary'])
-    questions = ''.join(f'<article class="question-row"><span>Q.{i:02}</span><h3>{e(q)}</h3></article>' for i, q in enumerate(DATA['compression_questions'], 1))
-    return content + f'''<section class="container research-overview"><div class="research-context"><p class="eyebrow">RESEARCH DIRECTION / R.02</p><h2>Designing around<br>the communication cost.</h2><p>Distributed wireless systems connect many access points and processing units. Moving radio information between them puts communication capacity and computation in the same design picture.</p><p>This research direction explores efficient fronthaul compression. It complements my work on cell-free networking, where coordination, interference, and computational cost all matter.</p></div>{fronthaul_art()}</section><section class="container section">{heading('01', 'Open questions', 'What I’m exploring.')}<div class="questions">{questions}</div></section><section class="container related-section"><p class="eyebrow">KEEP EXPLORING</p><a class="study-link" href="cellfree.html"><div><h3>AI-driven signal processing in distributed MIMO</h3><p>A related research direction: learning to coordinate a distributed network.</p></div><span aria-hidden="true">↗</span></a><a class="text-link" href="publication.html">Browse publications ↗</a></section>'''
+    p = DATA['projects'][1]
+    content = page_head(e(p['title']), e(p['summary']), crumb=('index.html#research', 'Research'))
+    questions = ''.join(f'<li>{e(q)}</li>' for q in DATA['compression_questions'])
+    content += '<section class="block"><h2>Background</h2><p>Distributed wireless systems connect many access points and processing units. Moving radio information between them puts communication capacity and computation in the same design picture.</p><p>This research area explores efficient fronthaul compression for distributed wireless network architectures. It complements my work on cell-free networking and physical-layer signal processing, where coordination and computational cost both matter.</p></section>'
+    content += f'<section class="block"><h2>Questions I Am Exploring</h2><ol>{questions}</ol></section>'
+    content += f'<section class="block"><h2>Related Work</h2><p>See also {link("cellfree.html", "AI-driven signal processing in cell-free massive MIMO")} and my {link("publication.html", "publications")}.</p></section>'
+    return content
 
 
 def validate_data():
@@ -213,30 +263,37 @@ def validate_data():
 
 def build():
     validate_data()
+    name = PROFILE['name']
     pages = {
-        'index.html': ('Wireless Systems & Machine Learning', 'home-page', 'about', home),
-        'publication.html': ('Publications', 'archive-page', 'publications', publications),
-        'services.html': ('Professional Service', 'service-page', 'service', services),
-        'awards.html': ('Awards', 'awards-page', '', awards),
-        'updates.html': ('Notes & Updates', 'notes-page', 'notes', updates),
-        'cellfree.html': ('AI-Driven Distributed MIMO', 'research-page', 'research', cellfree),
-        'cellfree-gnn.html': ('GNN-Based Precoding', 'research-page', 'research', gnn),
-        'compress.html': ('Fronthaul Compression', 'research-page', 'research', compress),
+        'index.html': (f'{name} ({PROFILE["name_zh"]})', 'home-page', 'home', home),
+        'publication.html': (f'Publications — {name}', 'list-page', 'publications', publications),
+        'services.html': (f'Professional Service — {name}', 'list-page', 'service', services),
+        'awards.html': (f'Awards — {name}', 'list-page', '', awards),
+        'updates.html': (f'Notes — {name}', 'notes-page', 'notes', updates),
+        'cellfree.html': (f'AI-Driven Signal Processing in Distributed MIMO — {name}', 'research-page', 'research', cellfree),
+        'cellfree-gnn.html': (f'GNN-Based Precoding — {name}', 'research-page', 'research', gnn),
+        'compress.html': (f'Fronthaul Compression — {name}', 'research-page', 'research', compress),
     }
-    nav_items = [('about', 'About', 'index.html#about'), ('research', 'Research', 'index.html#research'), ('publications', 'Publications', 'publication.html'), ('service', 'Service', 'services.html'), ('notes', 'Notes', 'updates.html')]
+    descriptions = {
+        'index.html': PROFILE['bio'],
+        'publication.html': 'Publications by Tianzheng Miao on machine learning, distributed MIMO, and real-world wireless systems.',
+        'services.html': 'Journal and conference peer review and technical program committee service by Tianzheng Miao.',
+        'awards.html': 'Awards and academic milestones of Tianzheng Miao.',
+        'updates.html': 'Research notes and personal reflections from Tianzheng Miao.',
+        'cellfree.html': DATA['projects'][0]['summary'],
+        'cellfree-gnn.html': DATA['gnn']['overview'],
+        'compress.html': DATA['projects'][1]['summary'],
+    }
+    nav_items = [('home', 'Home', 'index.html'), ('research', 'Research', 'index.html#research'), ('publications', 'Publications', 'publication.html'), ('service', 'Service', 'services.html'), ('notes', 'Notes', 'updates.html')]
+    today = date.today()
     for filename, (title, css, active, render) in pages.items():
-        nav = ''.join(f'<a class="nav-link {"is-active" if key == active else ""}" href="{href if filename != "index.html" or key not in ["about", "research"] else "#" + key}"' + (' aria-current="page"' if active == key and filename != 'index.html' else '') + f'>{label}</a>' for key, label, href in nav_items)
+        nav = ''.join(
+            f'<a href="{href}"' + (' class="is-active"' if key == active else '') + (' aria-current="page"' if href == filename else '') + f'>{label}</a>'
+            for key, label, href in nav_items
+        )
         content = render()
-        description = PROFILE['bio'] if filename == 'index.html' else {
-            'publication.html': 'Publications by Tianzheng Miao on machine learning, distributed MIMO, and real-world wireless systems.',
-            'services.html': 'Journal and conference peer review and technical program committee service by Tianzheng Miao.',
-            'awards.html': 'Awards and academic milestones of Tianzheng Miao.',
-            'updates.html': 'Research notes and personal reflections from Tianzheng Miao.',
-            'cellfree.html': DATA['projects'][0]['summary'],
-            'cellfree-gnn.html': DATA['gnn']['overview'],
-            'compress.html': DATA['projects'][1]['summary'],
-        }[filename]
-        html = BASE.substitute(title=e(title + ' — ' + PROFILE['name']), description=e(description), body_class=css, navigation=nav, content=content, email=e(PROFILE['email']), name=e(PROFILE['name']), name_zh=e(PROFILE['name_zh']), location=e(PROFILE['location']))
+        scripts = '<script src="network.js?v=1" defer></script>' if 'data-network' in content else ''
+        html = BASE.substitute(scripts=scripts, title=e(title), description=e(descriptions[filename]), body_class=css, navigation=nav, content=content, email=e(PROFILE['email']), name=e(name), location=e(PROFILE['location']), year=today.year, updated=today.strftime('%B %Y'))
         (ROOT / filename).write_text(html, encoding='utf-8', newline='\n')
         print(f'Built {filename}')
     (ROOT / 'citations').mkdir(exist_ok=True)
