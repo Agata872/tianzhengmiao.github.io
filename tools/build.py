@@ -1,5 +1,6 @@
 """Build a complete, dependency-free static site from data/site.json."""
 from datetime import date
+from hashlib import sha256
 from html import escape
 from pathlib import Path
 from string import Template
@@ -12,6 +13,11 @@ DATA = json.loads((ROOT / 'data/site.json').read_text(encoding='utf-8'))
 BASE = Template((ROOT / 'templates/base.html').read_text(encoding='utf-8'))
 PROFILE = DATA['profile']
 PROJECTS = {project['id']: project for project in DATA['projects']}
+
+
+def asset_version(name):
+    """Short content hash for cache busting: the URL changes whenever the file changes."""
+    return sha256((ROOT / name).read_bytes()).hexdigest()[:8]
 
 
 def e(value):
@@ -339,8 +345,8 @@ def build():
             for key, label, href in nav_items
         )
         content = keep_together(render())
-        scripts = '<script src="network.js?v=1" defer></script>' if 'data-network' in content else ''
-        html = BASE.substitute(scripts=scripts, title=e(title), description=e(descriptions[filename]), body_class=css, navigation=nav, content=content, email=e(PROFILE['email']), name=e(name), location=e(PROFILE['location']), year=today.year, updated=today.strftime('%B %Y'))
+        scripts = f'<script src="network.js?v={asset_version("network.js")}" defer></script>' if 'data-network' in content else ''
+        html = BASE.substitute(css_version=asset_version('style.css'), fonts_version=asset_version('fonts/fonts.css'), scripts=scripts, title=e(title), description=e(descriptions[filename]), body_class=css, navigation=nav, content=content, email=e(PROFILE['email']), name=e(name), location=e(PROFILE['location']), year=today.year, updated=today.strftime('%B %Y'))
         (ROOT / filename).write_text(html, encoding='utf-8', newline='\n')
         print(f'Built {filename}')
     (ROOT / 'citations').mkdir(exist_ok=True)
