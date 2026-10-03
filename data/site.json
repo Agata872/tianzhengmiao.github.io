@@ -1,0 +1,302 @@
+{
+  "profile": {
+    "name": "Tianzheng Miao",
+    "name_zh": "苗天正",
+    "email": "tianzheng.miao@kuleuven.be",
+    "role": "Ph.D. researcher in Electrical Engineering",
+    "role_short": "Ph.D. researcher",
+    "institution": "KU Leuven",
+    "lab": "ESAT · WaveCore",
+    "location": "Ghent, Belgium",
+    "portrait": "photo.jpg",
+    "bio": "I explore how machine learning can make distributed wireless networks work better in the real world. My research connects physical-layer signal processing, cell-free massive MIMO, and experiments on real hardware.",
+    "supervisor": "François Rottenberg",
+    "supervisor_url": "https://francoisrottenberg.dramco.be",
+    "project_url": "https://www.empower6g.eu"
+  },
+  "projects": [
+    {
+      "id": "cellfree",
+      "slug": "cellfree.html",
+      "title": "Intelligence at the physical layer.",
+      "subtitle": "AI-driven signal processing in distributed MIMO",
+      "summary": "Bringing graph neural networks out of simulation and into distributed wireless systems. From precoder design to fine-tuning with real-world channel measurements.",
+      "categories": [
+        "learning",
+        "wireless"
+      ],
+      "category_label": "Machine learning / Distributed MIMO",
+      "image": "images/techtile.png",
+      "preview": "images/techtile.webp",
+      "image_alt": "Techtile testbed and its distributed access points",
+      "status": "Research direction"
+    },
+    {
+      "id": "compress",
+      "slug": "compress.html",
+      "title": "Make every bit count.",
+      "subtitle": "Efficient fronthaul compression",
+      "summary": "Exploring how to move less radio data between access points and processing units, while preserving the information a distributed network needs.",
+      "categories": [
+        "wireless",
+        "signal"
+      ],
+      "category_label": "Signal processing / Fronthaul",
+      "status": "Research direction"
+    }
+  ],
+  "publications": [
+    {
+      "id": "wcnc-2026",
+      "year": 2026,
+      "type": "Conference",
+      "venue": "IEEE WCNC",
+      "title": "Testbed Evaluation of AI-Based Precoding in Distributed MIMO Systems",
+      "authors": [
+        "Tianzheng Miao",
+        "Thomas Feys",
+        "Gilles Callebaut",
+        "Jarne Van Mulders",
+        "Md Arifur Rahman",
+        "François Rottenberg"
+      ],
+      "url": "https://ieeexplore.ieee.org/document/11555282",
+      "preprint": "https://arxiv.org/abs/2511.11251",
+      "doi": "10.1109/WCNC65185.2026.11555282",
+      "booktitle": "2026 IEEE Wireless Communications and Networking Conference (WCNC)",
+      "pages": "1--6",
+      "tags": [
+        "learning",
+        "wireless"
+      ],
+      "project": "cellfree.html"
+    },
+    {
+      "id": "sitb-2025",
+      "year": 2025,
+      "type": "Conference",
+      "venue": "SITB",
+      "title": "GNN-based Precoder Design and Fine-tuning for Cell-free Massive MIMO with Real-world CSI",
+      "authors": [
+        "Tianzheng Miao",
+        "Thomas Feys",
+        "Gilles Callebaut",
+        "Jarne Van Mulders",
+        "Emanuele Peschiera",
+        "Md Arifur Rahman",
+        "François Rottenberg"
+      ],
+      "url": "https://doi.org/10.48550/arXiv.2505.08788",
+      "preprint": "https://arxiv.org/abs/2505.08788",
+      "doi": "10.48550/arXiv.2505.08788",
+      "booktitle": "45th Symposium on Information Theory and Signal Processing (SITB)",
+      "tags": [
+        "learning",
+        "wireless"
+      ],
+      "project": "cellfree-gnn.html"
+    }
+  ],
+  "education": [
+    {
+      "year": "Present",
+      "title": "Ph.D. in Electrical Engineering",
+      "institution": "KU Leuven",
+      "detail": "ESAT · WaveCore. Physical-layer mechanisms for cell-free networking.",
+      "supervisor": "François Rottenberg",
+      "url": "https://francoisrottenberg.dramco.be"
+    },
+    {
+      "year": "2024",
+      "title": "M.Phil. in Computer & Information Engineering",
+      "institution": "The Chinese University of Hong Kong, Shenzhen",
+      "supervisor": "Rui Zhang",
+      "url": "https://sse.cuhk.edu.cn/en/faculty/zhangrui"
+    },
+    {
+      "year": "2022",
+      "title": "B.Eng. in Telecommunication Engineering",
+      "institution": "Xidian University",
+      "detail": "Xi’an, China."
+    }
+  ],
+  "awards": [
+    {
+      "year": 2020,
+      "title": "Bronze Award",
+      "event": "China College Students “Internet+” Innovation and Entrepreneurship Competition"
+    },
+    {
+      "year": 2020,
+      "title": "H Prize",
+      "event": "Mathematical Contest in Modeling (MCM)"
+    },
+    {
+      "year": 2019,
+      "title": "1st Prize",
+      "event": "Micro Course Competition"
+    }
+  ],
+  "services": [
+    {
+      "role": "Journal reviewer",
+      "description": "Contributing to peer review in wireless communications and signal processing.",
+      "items": [
+        {
+          "title": "IEEE Transactions on Wireless Communications"
+        },
+        {
+          "title": "IEEE Journal of Selected Topics in Signal Processing"
+        },
+        {
+          "title": "IEEE Transactions on Green Communications and Networking"
+        }
+      ]
+    },
+    {
+      "role": "Conference reviewer",
+      "description": "Reviewing work across communication theory, wireless systems, and sustainable networks.",
+      "items": [
+        {
+          "year": 2026,
+          "title": "IEEE International Conference on Communications (ICC)",
+          "detail": "Signal Processing for Communications"
+        },
+        {
+          "year": 2026,
+          "title": "IEEE International Conference on Communications (ICC)",
+          "detail": "Wireless Communications"
+        },
+        {
+          "year": 2026,
+          "title": "ICC Workshop WS-27",
+          "detail": "Sustain 6G"
+        },
+        {
+          "year": 2025,
+          "title": "IEEE Global Communications Conference (GLOBECOM)",
+          "detail": "Communication Theory"
+        },
+        {
+          "year": 2025,
+          "title": "IEEE International Symposium on Personal, Indoor and Mobile Radio Communications (PIMRC)"
+        },
+        {
+          "year": 2025,
+          "title": "IEEE International Conference on Communications (ICC)",
+          "detail": "Signal Processing for Communications Symposium"
+        },
+        {
+          "year": 2025,
+          "title": "IEEE ICC Workshop",
+          "detail": "SCLS6G"
+        },
+        {
+          "year": 2025,
+          "title": "IEEE Wireless Communications and Networking Conference (WCNC)"
+        }
+      ]
+    },
+    {
+      "role": "Technical program committee",
+      "description": "Supporting the exchange of ideas in the research community.",
+      "items": [
+        {
+          "year": 2024,
+          "title": "IEEE Wireless Communications and Networking Conference (WCNC)"
+        },
+        {
+          "year": 2023,
+          "title": "IEEE Vehicular Technology Conference (VTC)",
+          "detail": "Fall"
+        },
+        {
+          "year": 2022,
+          "title": "IEEE Vehicular Technology Conference (VTC)",
+          "detail": "Fall"
+        }
+      ]
+    }
+  ],
+  "focus": [
+    "CF massive MIMO / distributed processing: ideas worth validating in the testbed.",
+    "GNN-based precoder design: stability, generalization, and deployment constraints.",
+    "Keeping notes lightweight and easy to update."
+  ],
+  "posts": [
+    {
+      "id": "back-to-work",
+      "date": "2026-01-05",
+      "title": "返工第一天",
+      "lang": "zh-CN",
+      "tags": [
+        "research"
+      ],
+      "paragraphs": [
+        "灰暗的一天，好不容易昨天晚上实现了利用USRP进行无损的图片传输，结果上午还好好的，下午想要添加一个自定义的BFP压缩模块。先是碰到了python实现导致的处理速度下降问题，最后没办法只能对I/Q samples进行离线处理，结果一模一样的代码竟然接收出了问题，心里嘴里大骂WTF，到最后排查了一圈，也不知道是USRP还是天线亦或者我的电脑出了问题，仿真和OTA测试还是差很多啊。",
+        "希望明天能有好运气吧。"
+      ]
+    },
+    {
+      "id": "new-year",
+      "date": "2026-01-01",
+      "title": "新年第一天的小结",
+      "lang": "zh-CN",
+      "tags": [
+        "life",
+        "reflection",
+        "planning"
+      ],
+      "paragraphs": [
+        "新年的第一天，我试着对过去一年做一个简单的小结。",
+        "翻看最初写下的计划时，心里并不轻松。无论是学术上的成果，语言学习的目标，还是阅读与健身，这些原本被寄予厚望的事项，大多都停留在“开始过”的阶段，却没能真正走到终点。这样的回顾难免令人沮丧。",
+        "昨晚跨年夜，壁挂炉突然罢工，屋子里渐渐冷下来。我一边等着它重新点火，一边在电脑前跑着仿真。那一刻，我忽然意识到，这是我来到欧洲之后，第一次如此清晰地感受到孤独。想到远在国内的高中同学，有人已经成家，有人工作稳定，而我却身处异国的乡村，在深夜盯着屏幕里的曲线，心里不免生出一种迟疑——我选择这条路的意义究竟在哪里？",
+        "理性地说，科研进度并不算慢，但也绝谈不上快；对未来，我依旧缺乏一种明确而笃定的规划。这些念头在新年的夜里反复浮现，却没有给出任何答案。",
+        "或许，新的一年需要的并不是更宏大的目标，而是更可行的计划，以及更严格、也更诚实的执行方式。至于该如何制定这样的计划，现在还说不清楚。",
+        "这些问题，留到下一次再想吧。"
+      ]
+    }
+  ],
+  "gnn": {
+    "title": "Learning from the real wireless world.",
+    "subtitle": "GNN-based precoding in cell-free massive MIMO",
+    "overview": "Cell-free massive MIMO aims to provide uniform, high-quality wireless service through distributed access points. This work trains a graph neural network precoder on synthetic channel state information (CSI), then fine-tunes it with real measurements from the Techtile testbed.",
+    "dataset_url": "https://kuleuven-my.sharepoint.com/:f:/g/personal/tianzheng_miao_kuleuven_be/ErQh2y6X6yxPj-w9WLlbVDIB52p2T0EXlAqj26fXwJBj7g?e=fOJr3W",
+    "figures": [
+      {
+        "id": "system",
+        "title": "A distributed system",
+        "image": "images/systemmodel.png",
+        "alt": "Cell-free massive MIMO system model with distributed access points",
+        "caption": "Distributed access points coordinate to serve user equipment across a common coverage area."
+      },
+      {
+        "id": "architecture",
+        "title": "A graph of wireless links",
+        "image": "images/graph.png",
+        "alt": "Bipartite graph neural network architecture linking access points and users",
+        "caption": "The GNN uses a bipartite graph to represent access point–user wireless links."
+      },
+      {
+        "id": "testbed",
+        "title": "From simulation to the testbed",
+        "image": "images/techtile.png",
+        "preview": "images/techtile.webp",
+        "alt": "Techtile testbed with ceiling-mounted access points and a mobile user",
+        "caption": "33 ceiling-mounted access points. Measurements at 500 spatial positions produce diverse user combinations."
+      },
+      {
+        "id": "results",
+        "title": "Fine-tuning, layer by layer",
+        "image": "images/freeze.png",
+        "alt": "Sum-rate comparison of graph neural network layer-freezing strategies",
+        "caption": "Freezing four layers yields the best performance in this evaluation. Fine-tuning improves real-world sum-rate by 8.2 bits/channel use (approximately 15.7%). The model generalizes better than CB and performs close to ZF in practice."
+      }
+    ]
+  },
+  "compression_questions": [
+    "How can fronthaul communication overhead be reduced while retaining useful information for downstream processing?",
+    "How should processing and cooperation be shared across access points, distributed units, and the central processor?",
+    "How can communication efficiency be considered alongside interference and practical computational complexity?"
+  ]
+}

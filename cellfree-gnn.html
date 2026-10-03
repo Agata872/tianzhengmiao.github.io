@@ -1,85 +1,50 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
-  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<!doctype html>
+<html lang="en" data-theme="dark">
 <head>
-<meta name="generator" content="jemdoc, see http://jemdoc.jaboc.net/" />
-<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<link rel="stylesheet" href="jemdoc.css?v=20261003" type="text/css" />
-<title>GNN-based Precoding</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#0c1014">
+  <meta name="description" content="Cell-free massive MIMO aims to provide uniform, high-quality wireless service through distributed access points. This work trains a graph neural network precoder on synthetic channel state information (CSI), then fine-tunes it with real measurements from the Techtile testbed.">
+  <meta property="og:title" content="GNN-Based Precoding — Tianzheng Miao">
+  <meta property="og:description" content="Cell-free massive MIMO aims to provide uniform, high-quality wireless service through distributed access points. This work trains a graph neural network precoder on synthetic channel state information (CSI), then fine-tunes it with real measurements from the Techtile testbed.">
+  <meta property="og:type" content="website">
+  <title>GNN-Based Precoding — Tianzheng Miao</title>
+  <script src="theme.js?v=2"></script>
+  <link rel="icon" href="images/favicon.svg" type="image/svg+xml">
+  <link rel="preload" href="fonts/space-grotesk-400-700-latin.woff2" as="font" type="font/woff2" crossorigin>
+  <link rel="stylesheet" href="fonts/fonts.css">
+  <link rel="stylesheet" href="jemdoc.css?v=2">
+  <script src="main.js?v=2" defer></script>
 </head>
-<body>
-<table summary="Table for page layout." id="tlayout">
-<tr valign="top">
-<td id="layout-menu">
-<div class="menu-category">Tianzheng Miao</div>
-<div class="menu-item"><a href="index.html">Home</a></div>
-<div class="menu-item"><a href="publication.html">Publication</a></div>
-<div class="menu-item"><a href="awards.html">Awards</a></div>
-<div class="menu-item"><a href="services.html">Professional Services</a></div>
-<div class="menu-item"><a href="updates.html">Updates</a></div>
-<div class="menu-category">Research</div>
-<div class="menu-item"><a href="cellfree.html">AI-Driven Low-Physical-Layer Signal Processing in Distributed MIMO</a></div>
-<div class="menu-item"><a href="compress.html">Efficient Fronthaul Compression in Distributed Wireless Network Architectures</a></div>
-</td>
-
-<td id="layout-content">
-<h2>GNN-based Precoding in Cell-free Massive MIMO</h2>
-
-<p>
-Cell-free massive MIMO aims to provide uniform high-quality wireless service via distributed Access Points (APs). 
-This project proposes a GNN-based precoding framework trained on synthetic CSI and fine-tuned using real-world measurements 
-from our Techtile testbed.
-</p>
-
-<h3>System Overview</h3>
-<div style="text-align:center;">
-  <img src="images/systemmodel.png" alt="System Model" style="width:25%; border-radius:6px;" />
-  <p><i>Figure: System model of the Cell-free Massive MIMO network with distributed APs.</i></p>
-</div>
-
-<h3>GNN Architecture</h3>
-<div style="text-align:center;">
-  <img src="images/graph.png" alt="GNN Network" style="width:25%; border-radius:6px;" />
-  <p><i>Figure: GNN operates on a bipartite graph, modeling AP-UE wireless links.</i></p>
-</div>
-
-<h3>Real-world Dataset</h3>
-<div style="text-align:center;">
-  <img src="images/techtile.png" alt="Techtile Testbed" style="width:50%; border-radius:6px;" />
-  <p><i>Figure: Techtile testbed with 33 APs on ceiling and mobile UE on floor.</i></p>
-</div>
-<p>
-Real-world CSI data was collected from a testbed with 33 APs mounted on a ceiling. 
-500 spatial positions were sampled to create diverse user combinations for training and testing.
-</p>
-<p>
-👉 <a href="https://kuleuven-my.sharepoint.com/:f:/g/personal/tianzheng_miao_kuleuven_be/ErQh2y6X6yxPj-w9WLlbVDIB52p2T0EXlAqj26fXwJBj7g?e=fOJr3W" target="_blank">Download Dataset</a>
-</p>
-
-<h3>Key Results</h3>
-<ul>
-  <li>Fine-tuned GNN improves real-world sum-rate by <b>8.2 bits/channel use</b> (≈15.7%).</li>
-  <li>Layer-freezing with 4 frozen layers yields best performance.</li>
-  <li>Generalizes better than CB and close to ZF in practice.</li>
-</ul>
-<div style="text-align:center;">
-  <img src="images/freeze.png" alt="Freezing Strategy" style="width:25%; border-radius:6px;" />
-  <p><i>Figure: Comparison of different layer-freezing strategies.</i></p>
-</div>
-
-<h3>Publication</h3>
-<p>
-<b>Tianzheng Miao</b>, Thomas Feys, Gilles Callebaut, Jarne Van Mulders, Emanuele Peschiera, Md Arifur Rahman, François Rottenberg.<br />
-"<a href="https://doi.org/10.48550/arXiv.2505.08788" target="_blank">GNN-based Precoder Design and Fine-tuning for Cell-free Massive MIMO with Real-world CSI</a>", 2025.
-</p>
-
-<div id="footer">
-<div id="footer-text">
-</div>
-</div>
-</td>
-</tr>
-</table>
+<body class="research-page">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="reading-progress" aria-hidden="true"></div>
+  <header class="site-header">
+    <nav class="site-nav container" aria-label="Main navigation">
+      <a class="brand" href="index.html" aria-label="Tianzheng Miao home"><span class="brand-mark" aria-hidden="true"><i></i><i></i><i></i><i></i></span><span>Tianzheng Miao<span class="brand-period">.</span></span></a>
+      <div class="nav-links" id="primary-links"><a class="nav-link " href="index.html#about">About</a><a class="nav-link is-active" href="index.html#research" aria-current="page">Research</a><a class="nav-link " href="publication.html">Publications</a><a class="nav-link " href="services.html">Service</a><a class="nav-link " href="updates.html">Notes</a></div>
+      <div class="nav-tools">
+        <button class="theme-toggle icon-button" type="button" aria-label="Switch to light theme" aria-pressed="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M2 12h2m16 0h2M5 5l1.5 1.5m11 11L19 19M5 19l1.5-1.5m11-11L19 5"/></svg></button>
+        <a class="nav-contact" href="mailto:tianzheng.miao@kuleuven.be">Let’s talk <span aria-hidden="true">↗</span></a>
+        <button class="menu-toggle icon-button" type="button" aria-controls="primary-links" aria-expanded="false" aria-label="Open navigation"><span></span><span></span></button>
+      </div>
+    </nav>
+  </header>
+  <main id="main"><section class="page-intro container"><a class="back-link" href="index.html">← Back to home</a><p class="eyebrow">RESEARCH / GNN-BASED PRECODING</p><h1>Learning from<br><span class="accent">real-world signals.</span></h1><p class="page-description">Cell-free massive MIMO aims to provide uniform, high-quality wireless service through distributed access points. This work trains a graph neural network precoder on synthetic channel state information (CSI), then fine-tunes it with real measurements from the Techtile testbed.</p></section><div class="container detail-layout"><aside class="detail-sidebar"><p class="eyebrow">IN THIS STUDY</p><nav aria-label="Study sections"><a href="#system">01 / A distributed system</a><a href="#architecture">02 / A graph of wireless links</a><a href="#testbed">03 / From simulation to the testbed</a><a href="#results">04 / Fine-tuning, layer by layer</a><a href="#publication">05 / Publication</a></nav><a class="button button-outline" href="https://kuleuven-my.sharepoint.com/:f:/g/personal/tianzheng_miao_kuleuven_be/ErQh2y6X6yxPj-w9WLlbVDIB52p2T0EXlAqj26fXwJBj7g?e=fOJr3W" target="_blank" rel="noopener noreferrer">Download dataset <span aria-hidden="true">↗</span></a><p class="sidebar-note">Original measurements from the Techtile testbed.</p></aside><div class="detail-body"><div class="result-strip"><div><strong>33</strong><span>Access points</span></div><div><strong>500</strong><span>Spatial positions</span></div><div><strong>+8.2</strong><span>bits/channel use</span></div></div><section class="study-section" id="system"><h2>A distributed system</h2><figure class="research-figure"><a href="images/systemmodel.png" data-enlarge aria-label="Expand figure: Cell-free massive MIMO system model with distributed access points"><img src="images/systemmodel.png" alt="Cell-free massive MIMO system model with distributed access points" loading="lazy"><span class="figure-expand" aria-hidden="true">⤢</span></a><figcaption>Distributed access points coordinate to serve user equipment across a common coverage area.</figcaption></figure></section><section class="study-section" id="architecture"><h2>A graph of wireless links</h2><figure class="research-figure"><a href="images/graph.png" data-enlarge aria-label="Expand figure: Bipartite graph neural network architecture linking access points and users"><img src="images/graph.png" alt="Bipartite graph neural network architecture linking access points and users" loading="lazy"><span class="figure-expand" aria-hidden="true">⤢</span></a><figcaption>The GNN uses a bipartite graph to represent access point–user wireless links.</figcaption></figure></section><section class="study-section" id="testbed"><h2>From simulation to the testbed</h2><figure class="research-figure"><a href="images/techtile.png" data-enlarge aria-label="Expand figure: Techtile testbed with ceiling-mounted access points and a mobile user"><img src="images/techtile.webp" alt="Techtile testbed with ceiling-mounted access points and a mobile user" loading="lazy"><span class="figure-expand" aria-hidden="true">⤢</span></a><figcaption>33 ceiling-mounted access points. Measurements at 500 spatial positions produce diverse user combinations.</figcaption></figure></section><section class="study-section" id="results"><h2>Fine-tuning, layer by layer</h2><figure class="research-figure"><a href="images/freeze.png" data-enlarge aria-label="Expand figure: Sum-rate comparison of graph neural network layer-freezing strategies"><img src="images/freeze.png" alt="Sum-rate comparison of graph neural network layer-freezing strategies" loading="lazy"><span class="figure-expand" aria-hidden="true">⤢</span></a><figcaption>Freezing four layers yields the best performance in this evaluation. Fine-tuning improves real-world sum-rate by 8.2 bits/channel use (approximately 15.7%). The model generalizes better than CB and performs close to ZF in practice.</figcaption></figure></section><section class="study-section" id="publication"><h2>The publication</h2><div class="publication-list"><article class="publication-row" data-filter-item data-year="2025" data-categories="learning wireless"><div class="publication-year">2025<span>Conference</span></div><div class="publication-body"><p class="eyebrow publication-venue">SITB / 2025</p><h3><a class="paper-title" href="https://doi.org/10.48550/arXiv.2505.08788" target="_blank" rel="noopener noreferrer">GNN-based Precoder Design and Fine-tuning for Cell-free Massive MIMO with Real-world CSI <span aria-hidden="true">↗</span></a></h3><p class="authors"><strong>Tianzheng Miao</strong>, Thomas Feys, Gilles Callebaut, Jarne Van Mulders, Emanuele Peschiera, Md Arifur Rahman, François Rottenberg</p><div class="paper-links"><a class="small-link" href="https://doi.org/10.48550/arXiv.2505.08788" target="_blank" rel="noopener noreferrer">Paper <span aria-hidden="true">↗</span></a><a class="small-link" href="https://arxiv.org/abs/2505.08788" target="_blank" rel="noopener noreferrer">arXiv <span aria-hidden="true">↗</span></a><a class="small-link" href="cellfree-gnn.html">Project ↗</a><button class="small-link cite-button enhancement" type="button" data-citation="@inproceedings{miaositb2025,
+  title = {GNN-based Precoder Design and Fine-tuning for Cell-free Massive MIMO with Real-world CSI},
+  author = {Tianzheng Miao and Thomas Feys and Gilles Callebaut and Jarne Van Mulders and Emanuele Peschiera and Md Arifur Rahman and François Rottenberg},
+  booktitle = {45th Symposium on Information Theory and Signal Processing (SITB)},
+  year = {2025},
+  doi = {10.48550/arXiv.2505.08788},
+  url = {https://doi.org/10.48550/arXiv.2505.08788}
+}" aria-label="Show BibTeX for GNN-based Precoder Design and Fine-tuning for Cell-free Massive MIMO with Real-world CSI">Cite <span aria-hidden="true">↗</span></button><a class="small-link bib-download" href="citations/sitb-2025.bib" download>BibTeX ↓</a></div></div><span class="publication-index" aria-hidden="true">↗</span></article></div></section></div></div></main>
+  <footer class="site-footer container">
+    <div><a class="brand" href="index.html">Tianzheng Miao<span class="brand-period">.</span></a><p>Wireless systems. Learning. And everything in between.</p></div>
+    <div class="footer-links"><a href="publication.html">Publications</a><a href="services.html">Service</a><a href="awards.html">Awards</a><a href="updates.html">Notes</a></div>
+    <div class="footer-bottom"><span>© <span data-current-year>2026</span> Tianzheng Miao · 苗天正</span><span>Ghent, Belgium <span class="tiny-dot" aria-hidden="true"></span></span><a href="#main">Back to top ↑</a></div>
+  </footer>
+  <div class="toast" role="status" aria-live="polite"></div>
+  <dialog class="citation-dialog" aria-labelledby="citation-title"><div class="dialog-heading"><h2 id="citation-title">Cite this work</h2><button class="icon-button" type="button" data-close-dialog aria-label="Close citation">✕</button></div><pre><code id="citation-code"></code></pre><div class="dialog-actions"><button class="button button-primary" type="button" data-copy-citation>Copy BibTeX <span aria-hidden="true">↗</span></button><p class="citation-feedback" role="status"></p></div></dialog>
+  <dialog class="image-dialog" aria-label="Expanded research figure"><button class="icon-button" type="button" data-close-image aria-label="Close figure">✕</button><img alt=""><p></p></dialog>
 </body>
 </html>

@@ -1,9 +1,10 @@
 Tianzheng Miao
     Home                [index.html]
-    Publication         [publication.html]
+    Publications        [publication.html]
     Awards              [awards.html]
     Professional Services [services.html]
+    Notes & Updates     [updates.html]
 Research
-	Movable antenna (MA)-enabled \n wireless communications	[ma.html]
-	Intelligent reflecting surface	[irs.html]
-	Millimeter wave communication	[mmwave.html]
+    Distributed MIMO    [cellfree.html]
+    GNN-based Precoding [cellfree-gnn.html]
+    Fronthaul Compression [compress.html]
