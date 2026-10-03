@@ -182,6 +182,7 @@ def home():
     p = PROFILE
     email = e(p['email'])
     about = ''.join(f'<p>{rich(text)}</p>' for text in p['about'])
+    perspective = ''.join(f'<p>{e(text)}</p>' for text in p['perspective'])
     interests = ''.join(f'<li>{e(item)}</li>' for item in p['interests'])
     research = ''.join(f'<li><h3>{link(x["slug"], e(x["title"]))}</h3><p>{e(x["summary"])}</p></li>' for x in DATA['projects'])
     return f'''<section class="profile">
@@ -192,6 +193,7 @@ def home():
       <img class="portrait" src="{e(p['portrait'])}" alt="Portrait of {e(p['name'])}" width="1280" height="1706">
     </section>
     <section class="block" id="about"><h2>About</h2>{about}</section>
+    <section class="block" id="perspective"><h2>Research Perspective</h2>{perspective}</section>
     <section class="block" id="interests"><h2>Research Interests</h2><p>{e(p['interests_intro'])}</p><ul>{interests}</ul></section>
     <section class="block" id="research"><h2>Research</h2><ul class="research-list">{research}</ul></section>
     <section class="block" id="publications"><h2>Selected Publications</h2>{publication_list(limit=5)}<p class="more">{link('publication.html', 'All publications →')}</p></section>

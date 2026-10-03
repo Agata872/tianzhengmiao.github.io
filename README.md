@@ -26,9 +26,11 @@ python tools/check_site.py
 | 内容 | 数据位置 |
 | --- | --- |
 | 姓名、职位、地址、邮箱、照片 | `profile` |
-| 首页 About 段落（支持 `[文字](网址)` 链接）、研究兴趣 | `profile.about`、`profile.interests` |
+| 职位下方的 secondment 说明（支持 `[文字](网址)` 链接） | `profile.secondment` |
+| 首页 About 段落（支持 `[文字](网址)` 链接）、Research Perspective 段落、研究兴趣 | `profile.about`、`profile.perspective`、`profile.interests` |
 | 研究方向（首页列表及详情页入口） | `projects` |
 | 论文、作者、链接和 BibTeX | `publications` |
+| 工作经历（首页 Experience） | `experience` |
 | 教育经历 | `education` |
 | 奖项 | `awards` |
 | 审稿和委员会经历 | `services` |

@@ -15,6 +15,10 @@
       "As part of the [EMPOWER-6G](https://www.empower6g.eu) project, my research focuses on designing and implementing physical layer (PHY) mechanisms to enable cell-free (CF) networking using real channel data from the KU Leuven testbed ([Techtile](https://ieeexplore.ieee.org/abstract/document/9815696)). Additionally, I am investigating dynamic algorithms for optimizing cooperation levels between DUs and APs, aiming to minimize interference at the regional edge while maintaining computational complexity at the CPU within practical limits.",
       "I have now joined [IS-Wireless](https://www.is-wireless.com/) as a Junior Research Engineer in the Research and Innovation Department, to carry out the 18-month industrial secondment of the second phase of EMPOWER-6G. Working closely with industry, I study AI-RAN and O-RAN, focusing on how distributed units (DUs) and radio units (RUs) can cooperate under practical constraints: limited fronthaul capacity and inter-user interference. This builds on the physical-layer signal-processing research of the first phase of my Ph.D. and extends its scope from Layer 1 to Layers 1 and 2, covering the low-PHY, high-PHY, MAC and RLC, and potentially also PDCP and RRC."
     ],
+    "perspective": [
+      "My way of thinking about wireless systems has widened. I used to reason mostly from the level of the equipment vendor. Today I try to hold several viewpoints at once: different equipment vendors, the network operator, and others besides.",
+      "These viewpoints differ, but I expect them to converge on the question that matters most to me: the fundamental science of radio itself."
+    ],
     "interests_intro": "I have a wide range of interests in design and performance optimization for wireless communication systems. My current research focuses on:",
     "interests": [
       "Cell-free massive multiple-input multiple-output (CF-mMIMO)",
