@@ -1,61 +1,190 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
-  "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<!doctype html>
+<html lang="en" data-theme="light">
 <head>
-<meta name="generator" content="jemdoc, see http://jemdoc.jaboc.net/" />
-<meta http-equiv="Content-Type" content="text/html;charset=utf-8" />
-<link rel="stylesheet" href="jemdoc.css" type="text/css" />
-<title>Tianzheng Miao (苗天正)</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7f8f5">
+  <meta name="description" content="Tianzheng Miao is a Ph.D. researcher at KU Leuven working on distributed wireless networks, cell-free massive MIMO, and learning-based signal processing.">
+  <title>Tianzheng Miao — Wireless Systems &amp; Machine Learning</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="jemdoc.css">
+  <script src="main.js" defer></script>
 </head>
-<body>
-<table summary="Table for page layout." id="tlayout">
-<tr valign="top">
-<td id="layout-menu">
-<div class="menu-category">Tianzheng Miao</div>
-<div class="menu-item"><a href="index.html" class="current">Home</a></div>
-<div class="menu-item"><a href="publication.html">Publication</a></div>
-<div class="menu-item"><a href="awards.html">Awards</a></div>
-<div class="menu-item"><a href="updates.html">Updates</a></div>
-<!-- <div class="menu-item"><a href="services.html">Professional&nbsp;Services</a></div> -->
-<div class="menu-category">Research</div>
-<div class="menu-item"><a href="cellfree.html">AI-Driven Low-Physical-Layer Signal Processing in Distributed MIMO</a></div>
-<div class="menu-item"><a href="compress.html">Efficient Fronthaul Compression in Distributed Wireless Network Architectures</a></div>
-</td>
-<td id="layout-content">
-<div id="toptitle">
-<h1>Tianzheng Miao (苗天正)</h1>
-</div>
-<table class="imgtable"><tr><td>
-<img src="photo.jpg" alt="Tianzheng Miao" width="146px" height="200px" />&nbsp;</td>
-<td align="left"><p>Marie Skłodowska-Curie Ph.D Student<br />
-WaveCore, Department of Electrical Engineering (ESAT) <br />
-KU Leuven, Ghent and Aalst Campuses <br />
-Gebroeders De Smetstraat 1, 9000 Gent <br /> <br />
-Email: tianzheng.miao@kuleuven.be</p>
-</td></tr></table>
-<h2>About Me</h2>
-<p>I am currently pursuing a Ph.D. in the Department of Electrical Engineering (ESAT) at Katholieke Universiteit Leuven, under the supervision of <a href="https://francoisrottenberg.dramco.be">Prof. François Rottenberg</a>. Prior to this, I earned a B.Eng. in Telecommunication Engineering from <a href="https://en.xidian.edu.cn/">Xidian University</a>, Xi'an, China, in 2022, and an M.Phil. in Computer and Information Engineering from <a href="https://www.cuhk.edu.cn/en">The Chinese University of Hong Kong, Shenzhen</a>, China, in 2024, under the supervision of <a href="https://sse.cuhk.edu.cn/en/faculty/zhangrui">Prof. Rui Zhang</a>.</p>
-<p>As part of the <a href="https://www.empower6g.eu">EMPOWER-6G</a> project, my research focuses on designing and implementing physical layer (PHY) mechanisms to enable cell-free (CF) networking using real channel data from the KU Leuven testbed (<a href="https://ieeexplore.ieee.org/abstract/document/9815696/?casa_token=Yj1SxhIFZx4AAAAA:a8LPr1HX-eVA2Cu4U_Tv7ALE9V3Q2cRFG9xwPZbhevke6cwfSLNJnZLFGy3EVfL1tE5Dt_CLwJtdULk">Techtile</a>). Additionally, I am investigating dynamic algorithms for optimizing cooperation levels between DUs and APs, aiming to minimize interference at the regional edge while maintaining computational complexity at the CPU within practical limits.</p>
-<h2>Research Interests</h2>
-<p>I have a wide range of interests in design and performance optimization for wireless communication systems. My current research focuses on</p>
-<ul>
-<li><p>Cell-free Massive Multipul-input-multiple-output (CF-mMIMO)</a></p>
-</li>
-<li><p>Deep Learning</a></p>
-</li>
-<li><p>Wireless Sensing</a></p>
-</li>
-</ul>
-<p><br />
-If you are interested in our work, or just want to have a casual chat, please feel free to email me. I am very willing to learn and exchange ideas with different people.</p>
-<p>I am lucky that I have met many nice professors, friends, classmates, and workmates in my life till now. Always be grateful to them, and cherish the date with them.</p>
-<p>Thank you for your reading, and wish you a nice day. (๑╹ヮ╹๑)</p>
-<div id="footer">
-<div id="footer-text">
-</div>
-</div>
-</td>
-</tr>
-</table>
+<body class="home-page">
+  <a class="skip-link" href="#main">Skip to content</a>
+  <header class="site-header">
+    <nav class="site-nav page-width" aria-label="Main navigation">
+      <a class="brand" href="index.html" aria-label="Tianzheng Miao home">
+        <span class="brand-mark">TM</span>
+        <span class="brand-name">Tianzheng Miao <span>苗天正</span></span>
+      </a>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="primary-links" aria-label="Open navigation">
+        <span></span><span></span>
+      </button>
+      <div class="nav-links" id="primary-links">
+        <a class="nav-link is-active" href="#about">About</a>
+        <a class="nav-link" href="#research">Research</a>
+        <a class="nav-link" href="#publications">Publications</a>
+        <a class="nav-link" href="#journey">Journey</a>
+        <a class="nav-link nav-link-external" href="services.html">Service <span aria-hidden="true">↗</span></a>
+        <a class="nav-link nav-link-external" href="updates.html">Updates <span aria-hidden="true">↗</span></a>
+        <button class="theme-toggle" type="button" aria-label="Switch to dark theme" aria-pressed="false">
+          <svg class="theme-icon theme-icon-sun" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="4"></circle><path d="M12 2v2m0 16v2M4.93 4.93l1.42 1.42m11.3 11.3 1.42 1.42M2 12h2m16 0h2M4.93 19.07l1.42-1.42m11.3-11.3 1.42-1.42"></path></svg>
+          <svg class="theme-icon theme-icon-moon" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.2 15.1A8.5 8.5 0 0 1 8.9 3.8 8.5 8.5 0 1 0 20.2 15.1Z"></path></svg>
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+    <section class="hero page-width" id="about" aria-labelledby="hero-title">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="status-dot"></span> Ph.D. researcher · KU Leuven</p>
+        <h1 id="hero-title">Making wireless<br>systems <span class="accent-text">work smarter.</span></h1>
+        <p class="hero-intro">I’m Tianzheng, an electrical engineering Ph.D. researcher exploring how machine learning can make distributed wireless networks more capable in the real world.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#research">Explore my research <span aria-hidden="true">↓</span></a>
+          <a class="button button-quiet" href="mailto:tianzheng.miao@kuleuven.be">Get in touch <span aria-hidden="true">↗</span></a>
+        </div>
+        <div class="hero-details">
+          <span><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 10c0 5-8 12-8 12S4 15 4 10a8 8 0 1 1 16 0Z"></path><circle cx="12" cy="10" r="2.5"></circle></svg> Ghent, Belgium</span>
+          <span><svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"></rect><path d="m4 7 8 6 8-6"></path></svg> <a href="mailto:tianzheng.miao@kuleuven.be">tianzheng.miao@kuleuven.be</a></span>
+        </div>
+      </div>
+      <div class="hero-visual">
+        <div class="portrait-frame">
+          <img src="photo.jpg" alt="Portrait of Tianzheng Miao outdoors" fetchpriority="high">
+          <div class="portrait-caption"><span class="caption-dot"></span><span>Currently at KU Leuven<br><strong>WaveCore · ESAT</strong></span><span class="caption-arrow" aria-hidden="true">↗</span></div>
+        </div>
+        <div class="visual-note visual-note-top"><span class="note-index">01</span> Wireless communications</div>
+        <div class="visual-note visual-note-bottom"><span class="signal-mark" aria-hidden="true">∿</span> Learning from real-world CSI</div>
+        <svg class="orbit-art" viewBox="0 0 120 120" aria-hidden="true"><circle cx="60" cy="60" r="42"></circle><circle cx="60" cy="60" r="27"></circle><circle cx="60" cy="60" r="11"></circle><circle class="orbit-node" cx="101" cy="60" r="4"></circle><circle class="orbit-node orbit-node-alt" cx="60" cy="33" r="3"></circle></svg>
+      </div>
+      <a class="scroll-cue" href="#research"><span></span> Scroll to explore</a>
+    </section>
+
+    <section class="intro-strip">
+      <div class="page-width intro-strip-inner">
+        <p>Curious about the space between <strong>AI</strong> and <strong>wireless systems.</strong></p>
+        <div class="interest-tags" aria-label="Research interests">
+          <span>Cell-free mMIMO</span><span>Deep learning</span><span>Wireless sensing</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section page-width" id="research" aria-labelledby="research-title">
+      <div class="section-heading">
+        <div><p class="eyebrow">01 — What I work on</p><h2 id="research-title">Research, in practice.</h2></div>
+        <p class="section-description">Bringing data-driven methods closer to the physical layer, the testbed, and the people using the network.</p>
+      </div>
+      <div class="filter-bar" role="group" aria-label="Filter research projects">
+        <span class="filter-label">Explore by focus</span>
+        <button class="filter-button is-selected" type="button" data-filter="all" aria-pressed="true">All projects <span>02</span></button>
+        <button class="filter-button" type="button" data-filter="learning" aria-pressed="false">AI &amp; learning</button>
+        <button class="filter-button" type="button" data-filter="systems" aria-pressed="false">Wireless systems</button>
+      </div>
+      <div class="project-grid">
+        <article class="project-card project-card-featured" data-category="learning systems">
+          <div class="project-art project-art-network" aria-hidden="true">
+            <div class="network-label network-label-ap">ACCESS POINTS</div><div class="network-label network-label-ue">USERS</div>
+            <svg viewBox="0 0 500 220"><g class="network-lines"><path d="M65 45 250 80M65 45 250 145M65 110 250 80M65 110 250 145M65 175 250 80M65 175 250 145M250 80 435 45M250 80 435 110M250 145 435 110M250 145 435 175"></path></g><g class="network-nodes"><circle cx="65" cy="45" r="10"></circle><circle cx="65" cy="110" r="10"></circle><circle cx="65" cy="175" r="10"></circle><circle cx="250" cy="80" r="13"></circle><circle cx="250" cy="145" r="13"></circle><circle cx="435" cy="45" r="10"></circle><circle cx="435" cy="110" r="10"></circle><circle cx="435" cy="175" r="10"></circle></g></svg>
+            <span class="art-caption">A GRAPH VIEW OF THE WIRELESS WORLD</span>
+          </div>
+          <div class="project-content">
+            <div class="project-meta"><span class="project-number">01</span><span class="project-type">Machine learning · Distributed MIMO</span></div>
+            <h3>Learning to connect the dots.</h3>
+            <p>Designing and fine-tuning graph neural network precoders for cell-free massive MIMO, using real channel measurements from the KU Leuven Techtile testbed.</p>
+            <div class="result-chip"><span aria-hidden="true">↗</span> +8.2 bits/channel use in real-world sum-rate</div>
+            <a class="text-link" href="cellfree.html">Explore this research <span aria-hidden="true">→</span></a>
+          </div>
+        </article>
+        <article class="project-card" data-category="systems">
+          <div class="project-art project-art-fronthaul" aria-hidden="true">
+            <span class="fronthaul-label">DISTRIBUTED ARCHITECTURE</span>
+            <div class="fronthaul-flow"><span class="flow-node">AP</span><span class="flow-line"></span><span class="flow-node flow-node-core">DU</span><span class="flow-line"></span><span class="flow-node">CPU</span></div>
+            <div class="compression-blocks"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></div>
+            <span class="art-caption">LESS DATA · MORE EFFICIENT LINKS</span>
+          </div>
+          <div class="project-content">
+            <div class="project-meta"><span class="project-number">02</span><span class="project-type">Signal processing · Networks</span></div>
+            <h3>Making every bit count.</h3>
+            <p>Exploring efficient fronthaul compression for distributed wireless architectures—where communication constraints are part of the system design.</p>
+            <a class="text-link" href="compress.html">Explore this research <span aria-hidden="true">→</span></a>
+          </div>
+        </article>
+      </div>
+      <p class="section-footnote">Research is part of the <a href="https://www.empower6g.eu" target="_blank" rel="noreferrer">EMPOWER-6G project <span aria-hidden="true">↗</span></a>.</p>
+    </section>
+
+    <section class="publication-section" id="publications" aria-labelledby="publications-title">
+      <div class="page-width">
+        <div class="section-heading">
+          <div><p class="eyebrow">02 — Selected work</p><h2 id="publications-title">From ideas to papers.</h2></div>
+          <a class="text-link all-publications" href="publication.html">All publications <span aria-hidden="true">→</span></a>
+        </div>
+        <div class="publication-list">
+          <article class="publication-item">
+            <span class="publication-year">2025</span>
+            <div class="publication-main"><span class="publication-kind">CONFERENCE PAPER · SITB</span><h3><a href="https://doi.org/10.48550/arXiv.2505.08788" target="_blank" rel="noreferrer">GNN-based Precoder Design and Fine-tuning for Cell-free Massive MIMO with Real-world CSI</a></h3><p><strong>T. Miao</strong>, T. Feys, G. Callebaut, J. Van Mulders, E. Peschiera, M. A. Rahman, and F. Rottenberg</p></div>
+            <a class="publication-arrow" href="https://doi.org/10.48550/arXiv.2505.08788" target="_blank" rel="noreferrer" aria-label="Read the paper">↗</a>
+          </article>
+          <article class="publication-item">
+            <span class="publication-year">2025</span>
+            <div class="publication-main"><span class="publication-kind">PREPRINT · ARXIV</span><h3><a href="https://arxiv.org/abs/2511.11251" target="_blank" rel="noreferrer">Testbed Evaluation of AI-based Precoding in Distributed MIMO Systems</a></h3><p><strong>T. Miao</strong>, T. Feys, G. Callebaut, J. Van Mulders, M. A. Rahman, and F. Rottenberg</p></div>
+            <a class="publication-arrow" href="https://arxiv.org/abs/2511.11251" target="_blank" rel="noreferrer" aria-label="Read the preprint">↗</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section page-width journey-section" id="journey" aria-labelledby="journey-title">
+      <div class="section-heading">
+        <div><p class="eyebrow">03 — A little context</p><h2 id="journey-title">The path so far.</h2></div>
+        <p class="section-description">Different places, one recurring question: how can technology connect us better?</p>
+      </div>
+      <div class="journey-layout">
+        <div class="timeline">
+          <article class="timeline-item timeline-current">
+            <span class="timeline-year">CURRENT</span>
+            <span class="timeline-marker" aria-hidden="true"></span>
+            <div><h3>Ph.D. in Electrical Engineering</h3><p>KU Leuven · ESAT · WaveCore</p><p class="timeline-detail">Research on physical-layer mechanisms for cell-free networking, supervised by <a href="https://francoisrottenberg.dramco.be" target="_blank" rel="noreferrer">Prof. François Rottenberg</a>.</p></div>
+          </article>
+          <article class="timeline-item">
+            <span class="timeline-year">2024</span>
+            <span class="timeline-marker" aria-hidden="true"></span>
+            <div><h3>M.Phil. in Computer &amp; Information Engineering</h3><p>The Chinese University of Hong Kong, Shenzhen</p><p class="timeline-detail">Supervised by <a href="https://sse.cuhk.edu.cn/en/faculty/zhangrui" target="_blank" rel="noreferrer">Prof. Rui Zhang</a>.</p></div>
+          </article>
+          <article class="timeline-item">
+            <span class="timeline-year">2022</span>
+            <span class="timeline-marker" aria-hidden="true"></span>
+            <div><h3>B.Eng. in Telecommunication Engineering</h3><p>Xidian University · Xi’an, China</p></div>
+          </article>
+        </div>
+        <aside class="side-note">
+          <span class="side-note-icon" aria-hidden="true">✳</span>
+          <p class="eyebrow">A few milestones</p>
+          <div class="milestone"><strong>2020</strong><span>Bronze Award<br>China College Students “Internet+” Competition</span></div>
+          <div class="milestone"><strong>2020</strong><span>H Prize<br>Mathematical Contest in Modeling</span></div>
+          <div class="milestone"><strong>2019</strong><span>1st Prize<br>Micro Course Competition</span></div>
+          <a class="text-link" href="awards.html">More awards <span aria-hidden="true">→</span></a>
+        </aside>
+      </div>
+    </section>
+
+    <section class="contact-section" id="contact" aria-labelledby="contact-title">
+      <div class="page-width contact-inner">
+        <div><p class="eyebrow">Have a question or an idea?</p><h2 id="contact-title">Let’s make a connection.</h2><p>I’m always glad to talk about wireless systems, research, or a new collaboration.</p></div>
+        <a class="button button-light" href="mailto:tianzheng.miao@kuleuven.be">Say hello <span aria-hidden="true">↗</span></a>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer page-width">
+    <a class="brand footer-brand" href="index.html"><span class="brand-mark">TM</span><span class="brand-name">Tianzheng Miao <span>苗天正</span></span></a>
+    <p>Built with curiosity in Ghent, Belgium. <span>© <span id="current-year">2026</span> Tianzheng Miao</span></p>
+    <a class="back-to-top" href="#main">Back to top ↑</a>
+  </footer>
+  <div class="toast-message" role="status" aria-live="polite"></div>
 </body>
 </html>
