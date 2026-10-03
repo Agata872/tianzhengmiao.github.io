@@ -284,10 +284,28 @@ table#tlayout > tbody > tr, table#tlayout > tr { vertical-align: top; }
 #layout-content table:not(.imgtable) td { padding: 8px; border-color: var(--line); color: var(--muted); }
 #layout-content img { height: auto; }
 #layout-content .post-card { border-color: var(--line); border-radius: 6px; background: var(--surface); }
+#layout-content .updates-subtitle { margin: -2px 0 22px; color: var(--muted); font-size: 13px; }
+#layout-content .updates-section-title { margin: 24px 0 10px; color: var(--green); font: 600 10px var(--font-mono); letter-spacing: 1px; text-transform: uppercase; }
+#layout-content .updates-nav { display: flex; flex-wrap: wrap; gap: 7px; margin: 18px 0 27px; }
+#layout-content .pill { display: inline-flex; align-items: center; padding: 5px 10px; border-radius: 999px; background: var(--surface-soft); font-size: 11px; }
+#layout-content .pill:hover { border-color: var(--green); background: var(--green-soft); text-decoration: none; }
+#layout-content .post-card { margin: 13px 0; padding: 18px 20px; border: 1px solid var(--line); }
+#layout-content .post-card--pinned { border-left: 3px solid var(--orange); }
+#layout-content .post-meta { display: flex; flex-wrap: wrap; align-items: center; gap: 8px; margin-bottom: 8px; color: var(--muted); }
+#layout-content .post-date { color: var(--green); font: 10px var(--font-mono); }
+#layout-content .post-title { margin: 4px 0 7px; font: 600 17px var(--font-display); }
+#layout-content .post-body { color: var(--muted); font-size: 13px; line-height: 1.8; }
+#layout-content .post-body p { margin: 0 0 12px; font-size: inherit; line-height: inherit; }
+#layout-content .post-body p:last-child { margin-bottom: 0; }
+#layout-content .post-list { margin: 7px 0 0; padding-left: 20px; }
+#layout-content .tag-cloud { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 10px; }
 #layout-content .post-date { color: var(--ink); }
 #layout-content .post-title, #layout-content .post-details summary { color: var(--ink); }
 #layout-content .post-body, #layout-content .updates-footer { color: var(--muted); }
-#layout-content .tag { border-color: var(--line); background: var(--surface-soft); color: var(--muted); }
+#layout-content .tag { display: inline-flex; align-items: center; margin: 0; padding: 3px 8px; border-color: var(--line); border-radius: 999px; background: var(--surface-soft); color: var(--muted); font-size: 9px; }
+#layout-content .post-details summary { cursor: pointer; font-size: 12px; font-weight: 600; }
+#layout-content .post-details-body { margin-top: 10px; }
+#layout-content .updates-footer { margin-top: 22px; font-size: 11px; }
 #layout-content .pill { border-color: var(--line); color: var(--green); }
 #layout-content #footer { margin-top: 42px; border-color: var(--line); }
 
@@ -303,6 +321,15 @@ table#tlayout > tbody > tr, table#tlayout > tr { vertical-align: top; }
   table#tlayout { width: min(100% - 36px, 760px); }
   #layout-menu { width: 195px; padding: 14px 12px; }
   #layout-content { padding: 26px; }
+}
+@media (min-width: 641px) and (max-width: 850px) {
+  table#tlayout { display: block; width: 100%; margin: 0; }
+  table#tlayout > tbody, table#tlayout > tbody > tr { display: block; }
+  #layout-menu { position: sticky; z-index: 8; top: 0; display: flex; width: 100%; align-items: center; gap: 4px; overflow-x: auto; padding: 9px 16px; border: 0; border-bottom: 1px solid var(--line); border-radius: 0; background: color-mix(in srgb, var(--paper) 94%, transparent); backdrop-filter: blur(14px); white-space: nowrap; }
+  #layout-menu .menu-category, #layout-menu .menu-category:first-child { display: none; }
+  #layout-menu .menu-item { flex: 0 0 auto; }
+  #layout-menu a { max-width: 175px; overflow: hidden; padding: 7px 9px; font-size: 10px; text-overflow: ellipsis; white-space: nowrap; }
+  #layout-content { display: block; width: min(calc(100% - 40px), 760px); margin: 24px auto; padding: 29px 34px; }
 }
 @media (max-width: 640px) {
   html { scroll-padding-top: 72px; }
@@ -370,7 +397,7 @@ table#tlayout > tbody > tr, table#tlayout > tr { vertical-align: top; }
   #layout-menu .menu-category, #layout-menu .menu-category:first-child { display: none; }
   #layout-menu .menu-item { flex: 0 0 auto; }
   #layout-menu a { max-width: 150px; overflow: hidden; padding: 7px 9px; font-size: 10px; text-overflow: ellipsis; white-space: nowrap; }
-  #layout-content { margin: 15px 12px; padding: 23px 19px; border-radius: 6px; }
+  #layout-content { display: block; width: calc(100% - 24px); margin: 15px 12px; padding: 23px 19px; border-radius: 6px; }
   #layout-content h1 { font-size: 26px; }
 }
 @media (prefers-reduced-motion: reduce) {
