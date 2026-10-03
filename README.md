@@ -42,7 +42,7 @@ python tools/check_site.py
 
 ## 修改样式
 
-- `style.css`：全部样式。顶部 `:root` 变量控制颜色、字体和正文宽度（`--measure`）。
+- `style.css`：全部样式。顶部 `:root` 变量控制颜色、字体和页面宽度（`--page`，宽屏左栏宽度 `--rail`）。宽度不小于 56rem 时，章节标题和照片放在左栏、正文在右栏；更窄的屏幕自动变为单栏。
 - `fonts/`：Source Serif 4 本地托管（SIL OFL 许可证在同目录）；加载失败时自动使用系统衬线字体。中文内容使用系统无衬线字体。
 - `templates/base.html`：所有页面的公共骨架。
 - `tools/build.py`：仅使用 Python 标准库的静态生成器。`tools/check_site.py`：检查本地链接、锚点、资源、标题层级、图片描述和 BibTeX 文件。
