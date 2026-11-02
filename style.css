@@ -87,6 +87,10 @@ li { margin: .25rem 0; }
   padding: 3px; background: #fff; border: 1px solid var(--rule);
 }
 
+/* Home: ASCII shark banner (sharks/ascii-sharks.js). The canvas is absolutely positioned so its pixel size never feeds back into the layout. */
+.ocean { position: relative; height: 20rem; margin: 0 0 2rem; overflow: hidden; background: #000; border-radius: 2px; }
+.ocean canvas { position: absolute; inset: 0; display: block; width: 100%; height: 100%; font-family: var(--mono); }
+
 .research-list { list-style: none; padding: 0; }
 .research-list li { margin: 0 0 1.2rem; }
 .research-list h3 { font-size: 1.1rem; }
@@ -223,6 +227,7 @@ figcaption { margin-top: .5rem; color: var(--muted); font-size: .92rem; }
   .profile { grid-template-columns: 1fr; }
   .portrait { order: -1; width: 8.5rem; }
   .nav-links { gap: .2rem 1rem; font-size: .86rem; }
+  .ocean { height: 15rem; margin-bottom: 1.5rem; }
   .timeline { grid-template-columns: 1fr; gap: 0; }
   .timeline dt { margin-top: .8rem; }
 }
@@ -255,7 +260,7 @@ figcaption { margin-top: .5rem; color: var(--muted); font-size: .92rem; }
 
 @media print {
   body { font-size: 11pt; }
-  .site-header, .skip-link, .bibtex, .net-controls, .net-readout { display: none; }
+  .site-header, .skip-link, .bibtex, .net-controls, .net-readout, .ocean { display: none; }
   a { color: inherit; text-decoration: none; }
   .publication, figure { break-inside: avoid; }
 }

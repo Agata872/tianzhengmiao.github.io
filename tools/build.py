@@ -184,6 +184,11 @@ def awards_rows():
     return timeline([(a['year'], f'<strong>{e(a["title"])}</strong><br><span class="muted">{e(a["event"])}</span>') for a in DATA['awards']])
 
 
+# Home banner (sharks/ascii-sharks.js): kinds from biggest to smallest, and a size multiplier for the short banner.
+# Kinds: classic, hammerhead, greathammer, tiger, zebra, mako, thresher, nurse.
+SHARKS = {'kinds': ['hammerhead', 'tiger', 'mako'], 'size': 1.5}
+
+
 def home():
     p = PROFILE
     email = e(p['email'])
@@ -191,7 +196,8 @@ def home():
     perspective = ''.join(f'<p>{e(text)}</p>' for text in p['perspective'])
     interests = ''.join(f'<li>{e(item)}</li>' for item in p['interests'])
     research = ''.join(f'<li><h3>{link(x["slug"], e(x["title"]))}</h3><p>{e(x["summary"])}</p></li>' for x in DATA['projects'])
-    return f'''<section class="profile">
+    return f'''<div class="ocean" aria-hidden="true"><canvas data-ascii-sharks="{e(','.join(SHARKS['kinds']))}" data-shark-size="{SHARKS['size']}"></canvas></div>
+    <section class="profile">
       <div class="profile-text"><h1>{e(p['name'])} <span class="name-zh" lang="zh-CN">{e(p['name_zh'])}</span></h1>
       <p class="position">{e(p['position'])}<br>{e(p['department'])}<br>{e(p['institution'])}</p>
       <p class="secondment">{rich(p['secondment'])}</p>
@@ -314,6 +320,10 @@ def validate_data():
             raise ValueError(f'Missing image: {image}')
 
 
+# Page scripts, loaded only where their marker attribute appears in the content.
+SCRIPTS = [('data-network', 'network.js'), ('data-ascii-sharks', 'sharks/ascii-sharks.js')]
+
+
 def build():
     validate_data()
     name = PROFILE['name']
@@ -345,7 +355,7 @@ def build():
             for key, label, href in nav_items
         )
         content = keep_together(render())
-        scripts = f'<script src="network.js?v={asset_version("network.js")}" defer></script>' if 'data-network' in content else ''
+        scripts = ''.join(f'<script src="{src}?v={asset_version(src)}" defer></script>' for marker, src in SCRIPTS if marker in content)
         html = BASE.substitute(css_version=asset_version('style.css'), fonts_version=asset_version('fonts/fonts.css'), scripts=scripts, title=e(title), description=e(descriptions[filename]), body_class=css, navigation=nav, content=content, email=e(PROFILE['email']), name=e(name), location=e(PROFILE['location']), year=today.year, updated=today.strftime('%B %Y'))
         (ROOT / filename).write_text(html, encoding='utf-8', newline='\n')
         print(f'Built {filename}')

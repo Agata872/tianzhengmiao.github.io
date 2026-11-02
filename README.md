@@ -1,6 +1,6 @@
 # Tianzheng Miao · Academic homepage
 
-传统学术主页风格：白底、衬线正文、单栏、以文字和论文为主。纯静态 HTML 和 CSS，只有研究页的互动示意图用到一个很小的 `network.js`，适合直接部署到 GitHub Pages；不需要 Node、npm 或后端。
+传统学术主页风格：白底、衬线正文、单栏、以文字和论文为主。纯静态 HTML 和 CSS，只有研究页的互动示意图（`network.js`）和首页的鲨鱼横幅（`sharks/ascii-sharks.js`）用到 JavaScript，适合直接部署到 GitHub Pages；不需要 Node、npm 或后端。
 
 ## 预览
 
@@ -57,5 +57,13 @@ python tools/check_site.py
 - 交互逻辑：`network.js`；图的样式：`style.css` 中 “Interactive network figure” 一节。
 - 不启用 JavaScript 时，页面仍显示完整的静态图和说明，只是没有按钮。
 - 在别的页面放这张图：在对应的渲染函数里调用 `network_figure(编号, 'system' 或 'graph')`，构建脚本会自动为该页面引入 `network.js`。
+
+## 首页鲨鱼横幅
+
+首页顶部的黑色横幅里，几条 ASCII 字符画的鲨鱼在追小鱼群，点击横幅会惊散鱼群。来自 [stackedlol/ascii-sharks](https://github.com/stackedlol/ascii-sharks)（MIT，许可证见 `sharks/LICENSE`）：上游的 TypeScript 源码去掉类型标注后合成了一个普通脚本 `sharks/ascii-sharks.js`，逻辑没有改动。
+
+- 鲨鱼品种和大小：`tools/build.py` 里的 `SHARKS`。第一个最大，后面依次缩小；可选 `classic`、`hammerhead`、`greathammer`、`tiger`、`zebra`、`mako`、`thresher`、`nurse`。改完重新构建即可。
+- 横幅高度和样式：`style.css` 中 “Home: ASCII shark banner” 一节。打印时不显示。
+- 横幅滚出屏幕时暂停动画；系统开启“减少动态效果”时只显示一帧静止画面。
 
 `MENU` 和 `jemdoc.py` 为历史文件，当前页面使用 `tools/build.py` 维护。
