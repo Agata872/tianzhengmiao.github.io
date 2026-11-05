@@ -186,7 +186,7 @@ def awards_rows():
 
 # Home banner (sharks/ascii-sharks.js): kinds from biggest to smallest, and a size multiplier for the short banner.
 # Kinds: classic, hammerhead, greathammer, tiger, zebra, mako, thresher, nurse.
-SHARKS = {'kinds': ['hammerhead', 'tiger', 'mako'], 'size': 1.5}
+SHARKS = {'kinds': ['hammerhead', 'tiger', 'mako'], 'size': 0.75}
 
 
 def home():
@@ -196,19 +196,22 @@ def home():
     perspective = ''.join(f'<p>{e(text)}</p>' for text in p['perspective'])
     interests = ''.join(f'<li>{e(item)}</li>' for item in p['interests'])
     research = ''.join(f'<li><h3>{link(x["slug"], e(x["title"]))}</h3><p>{e(x["summary"])}</p></li>' for x in DATA['projects'])
-    return f'''<div class="ocean" aria-hidden="true"><canvas data-ascii-sharks="{e(','.join(SHARKS['kinds']))}" data-shark-size="{SHARKS['size']}"></canvas></div>
-    <section class="profile">
-      <div class="profile-text"><h1>{e(p['name'])} <span class="name-zh" lang="zh-CN">{e(p['name_zh'])}</span></h1>
-      <p class="position">{e(p['position'])}<br>{e(p['department'])}<br>{e(p['institution'])}</p>
+    return f'''<div class="ocean"><canvas aria-hidden="true" data-ascii-sharks="{e(','.join(SHARKS['kinds']))}" data-shark-size="{SHARKS['size']}"></canvas><button class="ocean-motion" type="button" data-ocean-toggle hidden>Play animation</button></div>
+    <section class="profile" aria-labelledby="profile-name">
+      <div class="profile-text"><h1 id="profile-name">{e(p['name'])} <span class="name-zh" lang="zh-CN">{e(p['name_zh'])}</span></h1>
+      <p class="position">{e(p['position'])}</p>
+      <p class="affiliation">{e(p['department'])}<br>{e(p['institution'])}</p>
+      <p class="profile-intro">{e(p['research_intro'])}</p>
+      <div class="profile-links"><a href="#research">Explore research <span aria-hidden="true">↓</span></a><a href="publication.html">Publications <span aria-hidden="true">→</span></a></div>
       <p class="secondment">{rich(p['secondment'])}</p>
-      <p class="address">{e(p['address'])}<br>Email: <a href="mailto:{email}">{email}</a></p></div>
-      <img class="portrait" src="{e(p['portrait'])}" alt="Portrait of {e(p['name'])}" width="1280" height="1706">
+      <p class="address">{e(p['address'])}<br><a href="mailto:{email}">{email}</a></p></div>
+      <img class="portrait" src="{e(p['portrait'])}" alt="Portrait of {e(p['name'])}" width="1280" height="1706" fetchpriority="high">
     </section>
     <section class="block" id="about"><h2>About</h2>{about}</section>
-    <section class="block" id="perspective"><h2>Research Perspective</h2>{perspective}</section>
-    <section class="block" id="interests"><h2>Research Interests</h2><p>{e(p['interests_intro'])}</p><ul>{interests}</ul></section>
+    <section class="block" id="perspective"><h2>Research perspective</h2>{perspective}</section>
+    <section class="block" id="interests"><h2>Research interests</h2><p>{e(p['interests_intro'])}</p><ul>{interests}</ul></section>
     <section class="block" id="research"><h2>Research</h2><ul class="research-list">{research}</ul></section>
-    <section class="block" id="publications"><h2>Selected Publications</h2>{publication_list(limit=5)}<p class="more">{link('publication.html', 'All publications →')}</p></section>
+    <section class="block" id="publications"><h2>Selected publications</h2>{publication_list(limit=5)}<p class="more">{link('publication.html', 'All publications →')}</p></section>
     <section class="block" id="experience"><h2>Experience</h2>{experience()}</section>
     <section class="block" id="education"><h2>Education</h2>{education()}</section>
     <section class="block" id="awards"><h2>Awards</h2>{awards_rows()}</section>

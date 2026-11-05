@@ -9,6 +9,7 @@
     "address": "Gebroeders De Smetstraat 1, 9000 Gent, Belgium",
     "location": "Ghent, Belgium",
     "portrait": "photo.jpg",
+    "research_intro": "I explore how machine learning can make distributed wireless networks work better in the real world.",
     "bio": "I explore how machine learning can make distributed wireless networks work better in the real world. My research connects physical-layer signal processing, cell-free massive MIMO, and experiments on real hardware, and currently extends to AI-RAN and O-RAN during an industrial secondment at IS-Wireless.",
     "about": [
       "I am currently pursuing a Ph.D. in the Department of Electrical Engineering (ESAT) at KU Leuven under the supervision of [Prof. François Rottenberg](https://francoisrottenberg.dramco.be). Prior to this, I earned a B.Eng. in Telecommunication Engineering from [Xidian University](https://en.xidian.edu.cn/), Xi’an, China, in 2022, and an M.Phil. in Computer and Information Engineering from [The Chinese University of Hong Kong, Shenzhen](https://www.cuhk.edu.cn/en), China, in 2024, under the supervision of [Prof. Rui Zhang](https://sse.cuhk.edu.cn/en/faculty/zhangrui).",

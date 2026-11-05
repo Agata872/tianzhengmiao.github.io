@@ -26,6 +26,7 @@ python tools/check_site.py
 | 内容 | 数据位置 |
 | --- | --- |
 | 姓名、职位、地址、邮箱、照片 | `profile` |
+| 首屏的一句话研究简介 | `profile.research_intro` |
 | 职位下方的 secondment 说明（支持 `[文字](网址)` 链接） | `profile.secondment` |
 | 首页 About 段落（支持 `[文字](网址)` 链接）、Research Perspective 段落、研究兴趣 | `profile.about`、`profile.perspective`、`profile.interests` |
 | 研究方向（首页列表及详情页入口） | `projects` |
@@ -49,6 +50,15 @@ python tools/check_site.py
 
 页面包含打印样式，可直接打印或另存为 PDF。
 
+### 设计方向与来源
+
+本次精修参考 [unslop](https://github.com/heydamir/unslop)，作者 [Damir Sokolovsky (@heydamir)](https://x.com/heydamir)，采用 [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/) 许可。按已有学术风格调整，保留白底、蓝色链接、Source Serif 4、章节顺序和左侧索引栏。
+
+- 间距与布局：以 4px 为间距步长，统一章节、研究条目和论文列表的留白；正文在桌面保持可读宽度，手机姓名与小幅肖像并排。
+- 色彩与字体：保留原配色，用正文、次要信息和元数据三种层级组织内容；姓名、论文标题依靠字号区分，减少粗体和斜体强调。
+- 文案与入口：首屏研究简介取自已有个人介绍；增加研究和论文直达链接，不改动论文题名或研究事实。
+- 视觉与交互：保留真实肖像和 ASCII 鲨鱼，将横幅压缩为 120px；动画默认静止，支持手动播放、暂停和系统减少动态效果设置；链接和控件提供键盘焦点状态。
+
 ## 互动示意图
 
 `cellfree.html`（默认系统视图）和 `cellfree-gnn.html`（默认二部图视图）各有一张根据论文画的示意图：天花板 AP、前传、CPU（H → W），以及 GNN 使用的 AP–用户二部图。可拖动用户（也可用键盘方向键）、点选节点高亮其链路、切换视图，并分三步演示“输入 H → 逐层更新边特征 → 输出 W”。链路粗细只是随距离变化的示意，不是实测数据。
@@ -60,10 +70,10 @@ python tools/check_site.py
 
 ## 首页鲨鱼横幅
 
-首页顶部的黑色横幅里，几条 ASCII 字符画的鲨鱼在追小鱼群，点击横幅会惊散鱼群。来自 [stackedlol/ascii-sharks](https://github.com/stackedlol/ascii-sharks)（MIT，许可证见 `sharks/LICENSE`）：上游的 TypeScript 源码去掉类型标注后合成了一个普通脚本 `sharks/ascii-sharks.js`，逻辑没有改动。
+首页顶部保留 120px 高的 ASCII 鲨鱼横幅，默认显示静态画面。点击 “Play animation” 后，鲨鱼追逐鱼群，点击横幅会惊散鱼群；“Pause animation” 可暂停。来自 [stackedlol/ascii-sharks](https://github.com/stackedlol/ascii-sharks)（MIT，许可证见 `sharks/LICENSE`）：上游的 TypeScript 源码去掉类型标注后合成了一个普通脚本 `sharks/ascii-sharks.js`，本地补充了播放和暂停控制。
 
 - 鲨鱼品种和大小：`tools/build.py` 里的 `SHARKS`。第一个最大，后面依次缩小；可选 `classic`、`hammerhead`、`greathammer`、`tiger`、`zebra`、`mako`、`thresher`、`nurse`。改完重新构建即可。
 - 横幅高度和样式：`style.css` 中 “Home: ASCII shark banner” 一节。打印时不显示。
-- 横幅滚出屏幕时暂停动画；系统开启“减少动态效果”时只显示一帧静止画面。
+- 横幅滚出屏幕时暂停动画；系统开启“减少动态效果”时只显示一帧静止画面，并隐藏播放按钮。
 
 `MENU` 和 `jemdoc.py` 为历史文件，当前页面使用 `tools/build.py` 维护。

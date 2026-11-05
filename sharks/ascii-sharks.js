@@ -1650,9 +1650,12 @@ class OceanEngine {
   acc = 0;
   visible = true;
   disposed = false;
+  hasPlayed = false;
 
-  constructor(canvas, sharks) {
+  constructor(canvas, sharks, toggle = null) {
     this.canvas = canvas;
+    this.toggle = toggle;
+    this.paused = Boolean(toggle);
     this.world = new World(sharks);
     this.renderer = new AsciiRenderer(canvas);
     this.renderer.setFontFamily(getComputedStyle(canvas).fontFamily);
@@ -1667,6 +1670,10 @@ class OceanEngine {
     this.intersectionObserver.observe(canvas);
 
     this.reducedMotion.addEventListener("change", this.onMotionPreference);
+    if (this.toggle) {
+      this.toggle.addEventListener("click", this.onToggle);
+      this.updateToggle();
+    }
     window.addEventListener("pointermove", this.onPointerMove, { passive: true });
     window.addEventListener("pointerdown", this.onPointerDown, { passive: true });
     document.documentElement.addEventListener("pointerleave", this.onPointerLeave);
@@ -1675,7 +1682,7 @@ class OceanEngine {
     this.resize();
     // Canvas text can't trigger a webfont load; once the mono face is in, redraw.
     document.fonts?.load(`600 16px ${getComputedStyle(canvas).fontFamily}`).then(() => {
-      if (!this.disposed && this.reducedMotion.matches) this.drawStill();
+      if (!this.disposed && (this.paused || this.reducedMotion.matches)) this.drawStill();
     });
     this.schedule();
   }
@@ -1686,6 +1693,7 @@ class OceanEngine {
     this.resizeObserver.disconnect();
     this.intersectionObserver.disconnect();
     this.reducedMotion.removeEventListener("change", this.onMotionPreference);
+    this.toggle?.removeEventListener("click", this.onToggle);
     window.removeEventListener("pointermove", this.onPointerMove);
     window.removeEventListener("pointerdown", this.onPointerDown);
     document.documentElement.removeEventListener("pointerleave", this.onPointerLeave);
@@ -1698,12 +1706,12 @@ class OceanEngine {
     const dpr = Math.min(window.devicePixelRatio || 1, 2);
     this.renderer.resize(rect.width, rect.height, dpr);
     this.world.resize(rect.width, rect.height, this.renderer.cellWidth, this.renderer.cellHeight);
-    if (this.reducedMotion.matches) this.drawStill();
+    if (this.paused || this.reducedMotion.matches) this.drawStill();
   }
 
   schedule() {
     cancelAnimationFrame(this.raf);
-    if (this.disposed || !this.visible || this.reducedMotion.matches) return;
+    if (this.disposed || this.paused || !this.visible || this.reducedMotion.matches) return;
     this.last = performance.now();
     this.raf = requestAnimationFrame(this.frame);
   }
@@ -1725,19 +1733,48 @@ class OceanEngine {
 
   /** Reduced motion: let the ecosystem settle, then show a single frame. */
   drawStill() {
-    if (this.world.time < 4) {
+    if (this.world.time < 4 - STEP / 2) {
       for (let i = 0; i < 240; i++) this.world.step(STEP);
+    }
+    // Keep the opening still legible in a shallow banner, with complete silhouettes.
+    if (this.toggle && !this.hasPlayed) {
+      const { width, height, sharks } = this.world;
+      sharks.forEach((shark, i) => {
+        const direction = i % 2 ? -1 : 1;
+        const center = width * (i + .5) / sharks.length;
+        shark.heading = direction === 1 ? 0 : Math.PI;
+        shark.turn = 0;
+        for (let n = 0; n < SHARK_NODES; n++) {
+          shark.nodes[n * 2] = center + direction * shark.length * (.5 - n / (SHARK_NODES - 1));
+          shark.nodes[n * 2 + 1] = height * (i % 2 ? .65 : .4);
+        }
+      });
     }
     this.renderer.render(this.world, STEP);
   }
 
   onMotionPreference = () => {
+    this.updateToggle();
     if (this.reducedMotion.matches) {
       cancelAnimationFrame(this.raf);
       this.drawStill();
     } else {
       this.schedule();
     }
+  };
+
+  updateToggle() {
+    if (!this.toggle) return;
+    this.toggle.hidden = this.reducedMotion.matches;
+    this.toggle.textContent = this.paused ? "Play animation" : "Pause animation";
+  }
+
+  onToggle = () => {
+    this.paused = !this.paused;
+    if (!this.paused) this.hasPlayed = true;
+    this.updateToggle();
+    if (this.paused) cancelAnimationFrame(this.raf);
+    else this.schedule();
   };
 
   toLocal(e) {
@@ -1758,7 +1795,7 @@ class OceanEngine {
 
   onPointerDown = (e) => {
     const { x, y, inside } = this.toLocal(e);
-    if (inside && !this.reducedMotion.matches) this.world.splash(x, y);
+    if (inside && !this.paused && !this.reducedMotion.matches) this.world.splash(x, y);
   };
 
   onPointerLeave = () => {
@@ -1777,7 +1814,7 @@ function mount() {
     const kinds = canvas.getAttribute("data-ascii-sharks").split(",").map((k) => k.trim()).filter((k) => k in SHAPES);
     const scale = parseFloat(canvas.getAttribute("data-shark-size")) || 1;
     const sharks = kinds.length ? kinds.map((kind, i) => ({ kind, size: scale * (1 - i * 0.1) })) : undefined;
-    new OceanEngine(canvas, sharks);
+    new OceanEngine(canvas, sharks, canvas.parentElement.querySelector("[data-ocean-toggle]"));
   }
 }
 
